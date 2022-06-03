@@ -22,13 +22,13 @@ namespace MITRA.Oreders
     {
         int form;
         private Оборудование worker = new Оборудование();
-        public OredersPage(int _form)
+        public OredersPage(Учётная_запись account)
         {
-            form = _form;
+            InitializeComponent();
             if (form == 0)
             {
-                BtnAdd.Visibility = Visibility.Hidden;
-                BtnDel.Visibility = Visibility.Hidden;
+               /* BtnAdd.Visibility = Visibility.Hidden;
+                BtnDel.Visibility = Visibility.Hidden;*/
             }
             DataContext = worker;
             оборудованиеDataGrid.ItemsSource = db_mitraEntities.GetContext().Оборудование.ToList();

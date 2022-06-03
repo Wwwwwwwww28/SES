@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MITRA.Oreders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,17 +21,51 @@ namespace MITRA.Main
     /// </summary>
     public partial class MainPage : Page
     {
-        int form;
-        public MainPage(int _form)
+        
+        Учётная_запись account;
+        MainWindow parent;
+        public MainPage(MainWindow parent, Учётная_запись account)
         {
             InitializeComponent();
+            this.account = account;
+            this.parent = parent;
+            narad.Visibility = Visibility.Collapsed;
+            plan.Visibility = Visibility.Collapsed;
+            oborudovanie.Visibility = Visibility.Collapsed;
+            material.Visibility = Visibility.Collapsed;
+            sotrudniki.Visibility = Visibility.Collapsed;
+            
+
             Application.Current.MainWindow.Height = 350;
-            form = _form;
+            switch (account.Сотрудник.Должность.ID)
+            {
+                case 1:
+                        narad.Visibility = Visibility.Visible;
+                        plan.Visibility = Visibility.Visible;
+                        oborudovanie.Visibility = Visibility.Visible;
+                        material.Visibility = Visibility.Visible;
+                        sotrudniki.Visibility = Visibility.Visible;
+                    break;
+                case 2:
+                        narad.Visibility = Visibility.Visible;
+                    break;
+                case 3:
+                        material.Visibility = Visibility.Visible;
+                    break;
+                case 4:
+                        plan.Visibility = Visibility.Visible;
+                        oborudovanie.Visibility = Visibility.Visible;
+                    break;
+                case 5:
+                    sotrudniki.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
         private void OrderBC(object sender, RoutedEventArgs e)
         {
-//            App.ParentWindowRef.ParentFrame.Navigate(new (form));
+           
+            ((MainWindow)parent).ParentFrame.Navigate(new OredersPage(account));
         }
         private void PlanBC(object sender, RoutedEventArgs e)
         {
@@ -38,7 +73,7 @@ namespace MITRA.Main
         }
         private void MachinewBC(object sender, RoutedEventArgs e)
         {
-            App.ParentWindowRef.ParentFrame.Navigate(new Machin.MachinePage(form));
+            //App.ParentWindowRef.ParentFrame.Navigate(new Machin.MachinePage(account));
         }
         private void MaterialBC(object sender, RoutedEventArgs e)
         {

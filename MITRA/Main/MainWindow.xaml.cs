@@ -22,18 +22,20 @@ namespace MITRA
     public partial class MainWindow : Window
     {
         int _form = 0;
-        public MainWindow(string form)
+        Учётная_запись account;
+        public MainWindow(Учётная_запись account)
         {
             InitializeComponent();
-            if (form == "1" || form == "2")
+            this.account = account;
+            /*if (form == "1" || form == "2")
             {
                 _form = 1;
-            }
+            }*/
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             App.ParentWindowRef = this;
-            this.ParentFrame.Navigate(new MainPage(_form));
+            this.ParentFrame.Navigate(new MainPage(this, account));
         }
 
         private void ParentFrame_ContentRendered(object sender, EventArgs e)
@@ -51,7 +53,7 @@ namespace MITRA
 
         private void BtnHome_Click(object sender, RoutedEventArgs e)
         {
-            App.ParentWindowRef.ParentFrame.Navigate(new MainPage(_form));
+           // App.ParentWindowRef.ParentFrame.Navigate(new MainPage(_form));
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)

@@ -61,7 +61,7 @@ namespace MITRA.Oreders
                     MessageBox.Show("Добавление успешно!");
                 }
 
-                App.ParentWindowRef.ParentFrame.Navigate(new OredersPage(form));
+                //App.ParentWindowRef.ParentFrame.Navigate(new OredersPage(form));
             }
             catch (Exception ex)
             {

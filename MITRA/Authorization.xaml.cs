@@ -27,10 +27,24 @@ namespace MITRA
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-          //  string form = "" + element.First().ID_Должности;
-            MainWindow mainWindow = new MainWindow(form);
-            mainWindow.Show();
-            this.Close();
+            string login = LoginTB.Text;
+            string password = PasswordTB.Password;
+            try
+            {
+                Учётная_запись account = db_mitraEntities.GetContext().Учётная_запись.ToList().Where(x => x.Логин == login && x.Пароль == password).First();
+                if(account != null)
+                {
+                    MainWindow mainWindow = new MainWindow(account);
+                    mainWindow.Show();
+                    this.Close();
+                }
+            }
+
+            catch
+            {
+                MessageBox.Show("Ошибка авторизации");
+            }
+                
 
         }
     }

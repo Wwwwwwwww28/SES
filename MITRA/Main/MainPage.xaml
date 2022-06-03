@@ -14,11 +14,11 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <StackPanel>
-            <Button Content="Наряды" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" Click="OrderBC" Height="25" Margin="31,32,0,0"/>
-            <Button Content="План" HorizontalAlignment="Left" Margin="31,5,0,0" VerticalAlignment="Top" Width="202" Click="PlanBC" Height="25"/>
-            <Button Content="Оборудование" HorizontalAlignment="Left" Margin="31,5,0,0" VerticalAlignment="Top" Width="202" Height="25" Click="MachinewBC"/>
-            <Button Content="Материалы" HorizontalAlignment="Left" Margin="31,5,0,0" VerticalAlignment="Top" Width="202" Height="26" Click="MaterialBC"/>
-            <Button Content="Сотрудники" HorizontalAlignment="Left" Margin="31,5,0,0" VerticalAlignment="Top" Width="202" Height="26" Click="EmployeesBC"/>
+            <Button x:Name="narad" Content="Наряды" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" Click="OrderBC" Height="25" Margin="31,32,0,0"/>
+            <Button x:Name="plan" Content="План" HorizontalAlignment="Left" Margin="31,5,0,0" VerticalAlignment="Top" Width="202" Click="PlanBC" Height="25"/>
+            <Button x:Name="oborudovanie" Content="Оборудование" HorizontalAlignment="Left" Margin="31,5,0,0" VerticalAlignment="Top" Width="202" Height="25" Click="MachinewBC"/>
+            <Button x:Name="material" Content="Материалы" HorizontalAlignment="Left" Margin="31,5,0,0" VerticalAlignment="Top" Width="202" Height="26" Click="MaterialBC"/>
+            <Button x:Name="sotrudniki" Content="Сотрудники" HorizontalAlignment="Left" Margin="31,5,0,0" VerticalAlignment="Top" Width="202" Height="26" Click="EmployeesBC"/>
         </StackPanel>
         <Grid Panel.ZIndex="-2" Background="Gray" Grid.Row="2"/>
     </Grid>
