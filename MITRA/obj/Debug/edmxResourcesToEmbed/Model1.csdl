@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_mitraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Должность">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Сотрудник" Relationship="Self.FK_Сотрудник_Должность" FromRole="Должность" ToRole="Сотрудник" />
+  </EntityType>
+  <EntityType Name="Материал">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Кол_во" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Расход" Relationship="Self.FK_Расход_Материал" FromRole="Материал" ToRole="Расход" />
+  </EntityType>
+  <EntityType Name="Наряд">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Name="Номер" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_Оборудования" Type="Int32" Nullable="false" />
+    <Property Name="Дата" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ID_Исполнителя" Type="Int32" Nullable="false" />
+    <Property Name="ID_Состояния" Type="Int32" Nullable="false" />
+    <Property Name="ID_Шаблона" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Оборудование" Relationship="Self.FK_Наряд_Оборудование" FromRole="Наряд" ToRole="Оборудование" />
+    <NavigationProperty Name="Состояние" Relationship="Self.FK_Наряд_Состояние" FromRole="Наряд" ToRole="Состояние" />
+    <NavigationProperty Name="Шаблон" Relationship="Self.FK_Наряд_Шаблон" FromRole="Наряд" ToRole="Шаблон" />
+    <NavigationProperty Name="Отчёт" Relationship="Self.FK_Отчёт_Наряд" FromRole="Наряд" ToRole="Отчёт" />
+    <NavigationProperty Name="Сотрудник" Relationship="Self.Наряд_Сотрудник" FromRole="Наряд" ToRole="Сотрудник" />
+  </EntityType>
+  <EntityType Name="Оборудование">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ID_ТипОборудования" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Наряд" Relationship="Self.FK_Наряд_Оборудование" FromRole="Оборудование" ToRole="Наряд" />
+    <NavigationProperty Name="Тип_оборудования" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Оборудование" ToRole="Тип_оборудования" />
+  </EntityType>
+  <EntityType Name="Отчёт">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Номер_Наряда" Type="Int32" Nullable="false" />
+    <Property Name="Дата" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Результат" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Наряд" Relationship="Self.FK_Отчёт_Наряд" FromRole="Отчёт" ToRole="Наряд" />
+    <NavigationProperty Name="Расход" Relationship="Self.FK_Расход_Отчёт" FromRole="Отчёт" ToRole="Расход" />
+  </EntityType>
+  <EntityType Name="Состояние">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Наряд" Relationship="Self.FK_Наряд_Состояние" FromRole="Состояние" ToRole="Наряд" />
+  </EntityType>
+  <EntityType Name="Сотрудник">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ФИО" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ID_Должности" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Должность" Relationship="Self.FK_Сотрудник_Должность" FromRole="Сотрудник" ToRole="Должность" />
+    <NavigationProperty Name="Учётная_запись" Relationship="Self.FK_Учётная_запись_Сотрудник" FromRole="Сотрудник" ToRole="Учётная_запись" />
+    <NavigationProperty Name="Наряд" Relationship="Self.Наряд_Сотрудник" FromRole="Сотрудник" ToRole="Наряд" />
+  </EntityType>
+  <EntityType Name="Тип_оборудования">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Оборудование" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Тип_оборудования" ToRole="Оборудование" />
+    <NavigationProperty Name="План" Relationship="Self.FK_План_Тип_оборудования" FromRole="Тип_оборудования" ToRole="План" />
+  </EntityType>
+  <EntityType Name="Шаблон">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Наряд" Relationship="Self.FK_Наряд_Шаблон" FromRole="Шаблон" ToRole="Наряд" />
+  </EntityType>
+  <EntityType Name="План">
+    <Key>
+      <PropertyRef Name="ID_Оборудования" />
+      <PropertyRef Name="Data" />
+      <PropertyRef Name="Периодичность" />
+    </Key>
+    <Property Name="ID_Оборудования" Type="Int32" Nullable="false" />
+    <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Периодичность" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Тип_оборудования" Relationship="Self.FK_План_Тип_оборудования" FromRole="План" ToRole="Тип_оборудования" />
+  </EntityType>
+  <EntityType Name="Расход">
+    <Key>
+      <PropertyRef Name="ID_Отчёта" />
+      <PropertyRef Name="ID_Материала" />
+      <PropertyRef Name="Кол_во" />
+    </Key>
+    <Property Name="ID_Отчёта" Type="Int32" Nullable="false" />
+    <Property Name="ID_Материала" Type="Int32" Nullable="false" />
+    <Property Name="Кол_во" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Материал" Relationship="Self.FK_Расход_Материал" FromRole="Расход" ToRole="Материал" />
+    <NavigationProperty Name="Отчёт" Relationship="Self.FK_Расход_Отчёт" FromRole="Расход" ToRole="Отчёт" />
+  </EntityType>
+  <EntityType Name="Учётная_запись">
+    <Key>
+      <PropertyRef Name="ID_Сотрудника" />
+      <PropertyRef Name="Логин" />
+      <PropertyRef Name="Пароль" />
+    </Key>
+    <Property Name="ID_Сотрудника" Type="Int32" Nullable="false" />
+    <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Сотрудник" Relationship="Self.FK_Учётная_запись_Сотрудник" FromRole="Учётная_запись" ToRole="Сотрудник" />
+  </EntityType>
+  <Association Name="FK_Сотрудник_Должность">
+    <End Role="Должность" Type="Self.Должность" Multiplicity="1" />
+    <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Должность">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Сотрудник">
+        <PropertyRef Name="ID_Должности" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Расход_Материал">
+    <End Role="Материал" Type="Self.Материал" Multiplicity="1" />
+    <End Role="Расход" Type="Self.Расход" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Материал">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Расход">
+        <PropertyRef Name="ID_Материала" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Наряд_Оборудование">
+    <End Role="Оборудование" Type="Self.Оборудование" Multiplicity="1" />
+    <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Оборудование">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Наряд">
+        <PropertyRef Name="ID_Оборудования" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Наряд_Состояние">
+    <End Role="Состояние" Type="Self.Состояние" Multiplicity="1" />
+    <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Состояние">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Наряд">
+        <PropertyRef Name="ID_Состояния" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Наряд_Шаблон">
+    <End Role="Шаблон" Type="Self.Шаблон" Multiplicity="1" />
+    <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Шаблон">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Наряд">
+        <PropertyRef Name="ID_Шаблона" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Отчёт_Наряд">
+    <End Role="Наряд" Type="Self.Наряд" Multiplicity="1" />
+    <End Role="Отчёт" Type="Self.Отчёт" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Наряд">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="Отчёт">
+        <PropertyRef Name="Номер_Наряда" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Оборудование_Тип_оборудования">
+    <End Role="Тип_оборудования" Type="Self.Тип_оборудования" Multiplicity="1" />
+    <End Role="Оборудование" Type="Self.Оборудование" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Тип_оборудования">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Оборудование">
+        <PropertyRef Name="ID_ТипОборудования" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Расход_Отчёт">
+    <End Role="Отчёт" Type="Self.Отчёт" Multiplicity="1" />
+    <End Role="Расход" Type="Self.Расход" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Отчёт">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Расход">
+        <PropertyRef Name="ID_Отчёта" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Учётная_запись_Сотрудник">
+    <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="1" />
+    <End Role="Учётная_запись" Type="Self.Учётная_запись" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Сотрудник">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Учётная_запись">
+        <PropertyRef Name="ID_Сотрудника" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_План_Тип_оборудования">
+    <End Role="Тип_оборудования" Type="Self.Тип_оборудования" Multiplicity="1" />
+    <End Role="План" Type="Self.План" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Тип_оборудования">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="План">
+        <PropertyRef Name="ID_Оборудования" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Наряд_Сотрудник">
+    <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
+    <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="0..1" />
+  </Association>
+  <EntityContainer Name="db_mitraEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Должность" EntityType="Self.Должность" />
+    <EntitySet Name="Материал" EntityType="Self.Материал" />
+    <EntitySet Name="Наряд" EntityType="Self.Наряд" />
+    <EntitySet Name="Оборудование" EntityType="Self.Оборудование" />
+    <EntitySet Name="Отчёт" EntityType="Self.Отчёт" />
+    <EntitySet Name="Состояние" EntityType="Self.Состояние" />
+    <EntitySet Name="Сотрудник" EntityType="Self.Сотрудник" />
+    <EntitySet Name="Тип_оборудования" EntityType="Self.Тип_оборудования" />
+    <EntitySet Name="Шаблон" EntityType="Self.Шаблон" />
+    <EntitySet Name="План" EntityType="Self.План" />
+    <EntitySet Name="Расход" EntityType="Self.Расход" />
+    <EntitySet Name="Учётная_запись" EntityType="Self.Учётная_запись" />
+    <AssociationSet Name="FK_Сотрудник_Должность" Association="Self.FK_Сотрудник_Должность">
+      <End Role="Должность" EntitySet="Должность" />
+      <End Role="Сотрудник" EntitySet="Сотрудник" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Расход_Материал" Association="Self.FK_Расход_Материал">
+      <End Role="Материал" EntitySet="Материал" />
+      <End Role="Расход" EntitySet="Расход" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Наряд_Оборудование" Association="Self.FK_Наряд_Оборудование">
+      <End Role="Оборудование" EntitySet="Оборудование" />
+      <End Role="Наряд" EntitySet="Наряд" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Наряд_Состояние" Association="Self.FK_Наряд_Состояние">
+      <End Role="Состояние" EntitySet="Состояние" />
+      <End Role="Наряд" EntitySet="Наряд" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Наряд_Шаблон" Association="Self.FK_Наряд_Шаблон">
+      <End Role="Шаблон" EntitySet="Шаблон" />
+      <End Role="Наряд" EntitySet="Наряд" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Отчёт_Наряд" Association="Self.FK_Отчёт_Наряд">
+      <End Role="Наряд" EntitySet="Наряд" />
+      <End Role="Отчёт" EntitySet="Отчёт" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Оборудование_Тип_оборудования" Association="Self.FK_Оборудование_Тип_оборудования">
+      <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
+      <End Role="Оборудование" EntitySet="Оборудование" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Расход_Отчёт" Association="Self.FK_Расход_Отчёт">
+      <End Role="Отчёт" EntitySet="Отчёт" />
+      <End Role="Расход" EntitySet="Расход" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Учётная_запись_Сотрудник" Association="Self.FK_Учётная_запись_Сотрудник">
+      <End Role="Сотрудник" EntitySet="Сотрудник" />
+      <End Role="Учётная_запись" EntitySet="Учётная_запись" />
+    </AssociationSet>
+    <AssociationSet Name="FK_План_Тип_оборудования" Association="Self.FK_План_Тип_оборудования">
+      <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
+      <End Role="План" EntitySet="План" />
+    </AssociationSet>
+    <AssociationSet Name="Наряд_Сотрудник" Association="Self.Наряд_Сотрудник">
+      <End Role="Наряд" EntitySet="Наряд" />
+      <End Role="Сотрудник" EntitySet="Сотрудник" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(db_mitraModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(db_mitraModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

@@ -1,0 +1,35 @@
+﻿<Page x:Class="MITRA.Equip.EquipPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MITRA.Machin"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EquipPage" IsVisibleChanged="Page_IsVisibleChanged">
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="125"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="оборудованиеDataGrid"  AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True"   Margin="10" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="номерColumn" Binding="{Binding ID}" Header="Номер" Width="Auto"/>
+                <DataGridTextColumn x:Name="должностьColumn" Binding="{Binding Название}" Header="Название" Width="Auto"/>
+                <DataGridTextColumn x:Name="кабинетColumn" Binding="{Binding Тип_оборудованиея.Название}" Header="Тип" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Panel.ZIndex="-2" Background="Gray" Grid.Column="1" Grid.RowSpan="2">
+            <ComboBox SelectedItem="{Binding Тип_оборудованиея.Название}"  Height="30" x:Name="ComboType"  Margin="0,0,0,249" SelectionChanged="ComboPost_SelectionChanged" DisplayMemberPath="Post1" VerticalAlignment="Bottom"/>
+            <TextBox Background="White" x:Name="Search"    TextChanged="Search_TextChanged"  Margin="0,0,0,284" Height="30" VerticalAlignment="Bottom"/>
+            <Button Content="Добавить" x:Name="BtnAdd"  HorizontalAlignment="Left" Width="125" Click="BtnAdd_Click" Margin="0,0,0,112" Height="31" VerticalAlignment="Bottom" />
+            <Button Content="Сброс" x:Name="BtnCansel"  Margin="0,0,0,214" Click="BtnCansel_Click" Height="30" VerticalAlignment="Bottom"/>
+            <Button Content="Редактировать" x:Name="BtnEdit"  HorizontalAlignment="Left" Width="125" Click="BtnEdit_Click" Margin="0,0,0,76" Height="31" VerticalAlignment="Bottom" />
+            <Button Content="Удалить" x:Name="BtnDel"  HorizontalAlignment="Left" Width="125" Click="BtnDel_Click" Margin="0,0,0,40" Height="31" VerticalAlignment="Bottom" />
+
+        </Grid>
+
+    </Grid>
+</Page>
