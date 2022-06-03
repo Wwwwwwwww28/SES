@@ -69,7 +69,7 @@ namespace MITRA.Main
         }
         private void PlanBC(object sender, RoutedEventArgs e)
         {
-
+            ((MainWindow)parent).ParentFrame.Navigate(new Plan.PlanPage());
         }
         private void MachinewBC(object sender, RoutedEventArgs e)
         {

@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:MITRA"
              StartupUri="Authorization.xaml">
     <Application.Resources>
-         
+        
     </Application.Resources>
 </Application>

@@ -12,7 +12,16 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="оборудованиеDataGrid"  AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True"   Margin="10" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="0">
+        <DataGrid x:Name="планDataGrid"  AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible" Margin="10" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="0" FrozenColumnCount="1" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" CellEditEnding="планDataGrid_CellEditEnding">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell" >
+                    <Style.Triggers>
+                        <Trigger Property="TextBlock.Text" Value="True">
+                            <Setter Property="Background" Value="SeaGreen"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
         </DataGrid>
 
         <Grid Panel.ZIndex="-2" Background="Gray" Grid.Column="1" Grid.RowSpan="2">
