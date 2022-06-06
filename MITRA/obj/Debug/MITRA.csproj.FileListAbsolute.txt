@@ -87,3 +87,6 @@ C:\Users\Егор\Source\Repos\SES\MITRA\obj\Debug\MITRA.csproj.CoreCompileInput
 C:\Users\Егор\Source\Repos\SES\MITRA\obj\Debug\MITRA.csproj.CopyComplete
 C:\Users\Егор\Source\Repos\SES\MITRA\obj\Debug\MITRA.exe
 C:\Users\Егор\Source\Repos\SES\MITRA\obj\Debug\MITRA.pdb
+C:\Users\Егор\source\repos\SES\MITRA\bin\Debug\TimelineExLib.dll
+C:\Users\Егор\source\repos\SES\MITRA\bin\Debug\TimelineLibrary.dll
+C:\Users\Егор\source\repos\SES\MITRA\bin\Debug\ru\EntityFramework.SqlServer.resources.dll

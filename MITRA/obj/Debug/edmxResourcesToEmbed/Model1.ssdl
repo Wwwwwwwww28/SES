@@ -50,6 +50,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ID_ТипОборудования" Type="int" Nullable="false" />
+    <Property Name="Data" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="Отчёт">
     <Key>
@@ -65,11 +66,9 @@
   <EntityType Name="План">
     <Key>
       <PropertyRef Name="ID_Оборудования" />
-      <PropertyRef Name="Data" />
       <PropertyRef Name="Периодичность" />
     </Key>
     <Property Name="ID_Оборудования" Type="int" Nullable="false" />
-    <Property Name="Data" Type="date" Nullable="false" />
     <Property Name="Периодичность" Type="int" Nullable="false" />
   </EntityType>
   <!--Ошибки, обнаруженные при создании:
@@ -315,7 +314,6 @@
     <EntitySet Name="План" EntityType="Self.План" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [План].[ID_Оборудования] AS [ID_Оборудования], 
-    [План].[Data] AS [Data], 
     [План].[Периодичность] AS [Периодичность]
     FROM [dbo].[План] AS [План]</DefiningQuery>
     </EntitySet>

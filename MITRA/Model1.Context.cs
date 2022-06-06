@@ -17,6 +17,10 @@ namespace MITRA
     
     public partial class db_mitraEntities : DbContext
     {
+        public db_mitraEntities()
+            : base("name=db_mitraEntities")
+        {
+        }
         public static db_mitraEntities _context;
 
         public static db_mitraEntities GetContext()
@@ -25,11 +29,6 @@ namespace MITRA
                 _context = new db_mitraEntities();
             return _context;
         }
-        public db_mitraEntities()
-            : base("name=db_mitraEntities")
-        {
-        }
-    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище db_mitraModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище db_mitraModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -55,6 +55,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ID_ТипОборудования" Type="int" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Отчёт">
           <Key>
@@ -70,11 +71,9 @@
         <EntityType Name="План">
           <Key>
             <PropertyRef Name="ID_Оборудования" />
-            <PropertyRef Name="Data" />
             <PropertyRef Name="Периодичность" />
           </Key>
           <Property Name="ID_Оборудования" Type="int" Nullable="false" />
-          <Property Name="Data" Type="date" Nullable="false" />
           <Property Name="Периодичность" Type="int" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
@@ -320,7 +319,6 @@
           <EntitySet Name="План" EntityType="Self.План" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [План].[ID_Оборудования] AS [ID_Оборудования], 
-    [План].[Data] AS [Data], 
     [План].[Периодичность] AS [Периодичность]
     FROM [dbo].[План] AS [План]</DefiningQuery>
           </EntitySet>
@@ -387,8 +385,7 @@
             <End Role="Учётная_запись" EntitySet="Учётная_запись" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_mitraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -444,6 +441,7 @@
           <Property Name="ID_ТипОборудования" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Наряд" Relationship="Self.FK_Наряд_Оборудование" FromRole="Оборудование" ToRole="Наряд" />
           <NavigationProperty Name="Тип_оборудования" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Оборудование" ToRole="Тип_оборудования" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="Отчёт">
           <Key>
@@ -482,7 +480,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Оборудование" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Тип_оборудования" ToRole="Оборудование" />
-          <NavigationProperty Name="План" Relationship="Self.FK_План_Тип_оборудования" FromRole="Тип_оборудования" ToRole="План" />
+          <NavigationProperty Name="План" Relationship="db_mitraModel.FK_План_Тип_оборудования" FromRole="Тип_оборудования" ToRole="План" />
         </EntityType>
         <EntityType Name="Шаблон">
           <Key>
@@ -495,13 +493,11 @@
         <EntityType Name="План">
           <Key>
             <PropertyRef Name="ID_Оборудования" />
-            <PropertyRef Name="Data" />
             <PropertyRef Name="Периодичность" />
           </Key>
           <Property Name="ID_Оборудования" Type="Int32" Nullable="false" />
-          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Периодичность" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Тип_оборудования" Relationship="Self.FK_План_Тип_оборудования" FromRole="План" ToRole="Тип_оборудования" />
+          <NavigationProperty Name="Тип_оборудования" Relationship="db_mitraModel.FK_План_Тип_оборудования" FromRole="План" ToRole="Тип_оборудования" />
         </EntityType>
         <EntityType Name="Расход">
           <Key>
@@ -634,18 +630,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_План_Тип_оборудования">
-          <End Role="Тип_оборудования" Type="Self.Тип_оборудования" Multiplicity="1" />
-          <End Role="План" Type="Self.План" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Тип_оборудования">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="План">
-              <PropertyRef Name="ID_Оборудования" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Наряд_Сотрудник">
           <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
           <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="0..1" />
@@ -700,10 +684,6 @@
             <End Role="Сотрудник" EntitySet="Сотрудник" />
             <End Role="Учётная_запись" EntitySet="Учётная_запись" />
           </AssociationSet>
-          <AssociationSet Name="FK_План_Тип_оборудования" Association="Self.FK_План_Тип_оборудования">
-            <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
-            <End Role="План" EntitySet="План" />
-          </AssociationSet>
           <AssociationSet Name="Наряд_Сотрудник" Association="Self.Наряд_Сотрудник">
             <End Role="Наряд" EntitySet="Наряд" />
             <End Role="Сотрудник" EntitySet="Сотрудник" />
@@ -738,6 +718,10 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <AssociationSet Name="FK_План_Тип_оборудования" Association="db_mitraModel.FK_План_Тип_оборудования">
+            <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
+            <End Role="План" EntitySet="План" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -750,6 +734,18 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <Association Name="FK_План_Тип_оборудования">
+          <End Type="db_mitraModel.Тип_оборудования" Role="Тип_оборудования" Multiplicity="1" />
+          <End Type="db_mitraModel.План" Role="План" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Тип_оборудования">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="План">
+              <PropertyRef Name="ID_Оборудования" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -799,6 +795,7 @@
           <EntitySetMapping Name="Оборудование">
             <EntityTypeMapping TypeName="db_mitraModel.Оборудование">
               <MappingFragment StoreEntitySet="Оборудование">
+                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Название" ColumnName="Название" />
                 <ScalarProperty Name="ID_ТипОборудования" ColumnName="ID_ТипОборудования" />
@@ -852,7 +849,6 @@
             <EntityTypeMapping TypeName="db_mitraModel.План">
               <MappingFragment StoreEntitySet="План">
                 <ScalarProperty Name="ID_Оборудования" ColumnName="ID_Оборудования" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="Периодичность" ColumnName="Периодичность" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -40,8 +40,9 @@ namespace MITRA
                 }
             }
 
-            catch
+            catch (Exception d)
             {
+                MessageBox.Show("" + d.Message.ToString());
                 MessageBox.Show("Ошибка авторизации");
             }
                 

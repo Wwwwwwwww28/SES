@@ -52,6 +52,7 @@
     <Property Name="ID_ТипОборудования" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Наряд" Relationship="Self.FK_Наряд_Оборудование" FromRole="Оборудование" ToRole="Наряд" />
     <NavigationProperty Name="Тип_оборудования" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Оборудование" ToRole="Тип_оборудования" />
+    <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
   </EntityType>
   <EntityType Name="Отчёт">
     <Key>
@@ -90,7 +91,7 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Оборудование" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Тип_оборудования" ToRole="Оборудование" />
-    <NavigationProperty Name="План" Relationship="Self.FK_План_Тип_оборудования" FromRole="Тип_оборудования" ToRole="План" />
+    <NavigationProperty Name="План" Relationship="db_mitraModel.FK_План_Тип_оборудования" FromRole="Тип_оборудования" ToRole="План" />
   </EntityType>
   <EntityType Name="Шаблон">
     <Key>
@@ -103,13 +104,11 @@
   <EntityType Name="План">
     <Key>
       <PropertyRef Name="ID_Оборудования" />
-      <PropertyRef Name="Data" />
       <PropertyRef Name="Периодичность" />
     </Key>
     <Property Name="ID_Оборудования" Type="Int32" Nullable="false" />
-    <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Периодичность" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Тип_оборудования" Relationship="Self.FK_План_Тип_оборудования" FromRole="План" ToRole="Тип_оборудования" />
+    <NavigationProperty Name="Тип_оборудования" Relationship="db_mitraModel.FK_План_Тип_оборудования" FromRole="План" ToRole="Тип_оборудования" />
   </EntityType>
   <EntityType Name="Расход">
     <Key>
@@ -242,18 +241,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_План_Тип_оборудования">
-    <End Role="Тип_оборудования" Type="Self.Тип_оборудования" Multiplicity="1" />
-    <End Role="План" Type="Self.План" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Тип_оборудования">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="План">
-        <PropertyRef Name="ID_Оборудования" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="Наряд_Сотрудник">
     <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
     <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="0..1" />
@@ -308,10 +295,6 @@
       <End Role="Сотрудник" EntitySet="Сотрудник" />
       <End Role="Учётная_запись" EntitySet="Учётная_запись" />
     </AssociationSet>
-    <AssociationSet Name="FK_План_Тип_оборудования" Association="Self.FK_План_Тип_оборудования">
-      <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
-      <End Role="План" EntitySet="План" />
-    </AssociationSet>
     <AssociationSet Name="Наряд_Сотрудник" Association="Self.Наряд_Сотрудник">
       <End Role="Наряд" EntitySet="Наряд" />
       <End Role="Сотрудник" EntitySet="Сотрудник" />
@@ -346,6 +329,10 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <AssociationSet Name="FK_План_Тип_оборудования" Association="db_mitraModel.FK_План_Тип_оборудования">
+      <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
+      <End Role="План" EntitySet="План" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -358,4 +345,16 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
+  <Association Name="FK_План_Тип_оборудования">
+    <End Type="db_mitraModel.Тип_оборудования" Role="Тип_оборудования" Multiplicity="1" />
+    <End Type="db_mitraModel.План" Role="План" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Тип_оборудования">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="План">
+        <PropertyRef Name="ID_Оборудования" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

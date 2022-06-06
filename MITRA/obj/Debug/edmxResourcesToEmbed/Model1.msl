@@ -44,6 +44,7 @@
     <EntitySetMapping Name="Оборудование">
       <EntityTypeMapping TypeName="db_mitraModel.Оборудование">
         <MappingFragment StoreEntitySet="Оборудование">
+          <ScalarProperty Name="Data" ColumnName="Data" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Название" ColumnName="Название" />
           <ScalarProperty Name="ID_ТипОборудования" ColumnName="ID_ТипОборудования" />
@@ -97,7 +98,6 @@
       <EntityTypeMapping TypeName="db_mitraModel.План">
         <MappingFragment StoreEntitySet="План">
           <ScalarProperty Name="ID_Оборудования" ColumnName="ID_Оборудования" />
-          <ScalarProperty Name="Data" ColumnName="Data" />
           <ScalarProperty Name="Периодичность" ColumnName="Периодичность" />
         </MappingFragment>
       </EntityTypeMapping>

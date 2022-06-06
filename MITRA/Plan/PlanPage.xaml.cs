@@ -18,111 +18,125 @@ namespace MITRA.Plan
     /// <summary>
     /// Логика взаимодействия для PlanPage.xaml
     /// </summary>
+    /// 
+    
     class test
     {
         public string env { get; set; }
         public DateTime currentDate;
-        public string test1
-        {
-            get
-            {
-                check();
-                if (dates.Contains(currentDate))
-                {
-                    
-                    return "True";
-                }
-                else
-                {
-
-                    return "False";
-                };
-            }
-            set
-            {
-                test1 = value;
-            }
-        }
-        public test setDate(DateTime date)
-        {
-            currentDate = date;
-            return this;
-        }
-        public void funk()
-        {
-            check();
-            if (dates.Contains(currentDate))
-            {
-                this.test1 = "True";
-            }
-            else
-            {
-                this.test1 = "False";
-            }
-        }
-        public int pos;
-        public int period;
-        public DateTime bedinDate;
+       
         
-        private List<DateTime> dates = new List<DateTime>();
-        
-        private string check()
-        {
-            DateTime date1 = bedinDate;
-            for (int i = 0; i < 365/period; i++)
-            {
-                try
-                {
-                    dates.Add(date1.AddDays(period));
-                    date1 = date1.AddDays(period);
-                }
-                catch { }
-            }
-            return "";
-        }
     }
     public partial class PlanPage : Page
     {
+        List<Оборудование> ls;
         public PlanPage()
         {
             InitializeComponent();
-            var currentdate = DateTime.Today.Date;
-            var column1 = new DataGridTextColumn()
-            {
-                Header = "Оборудование",
-                Binding = new Binding("env")
-            };
-            var obj = db_mitraEntities.GetContext().Оборудование.ToList();
-            
+            DateTime currentTime = DateTime.Now;
+            timeLine.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            планDataGrid.Columns.Add(column1);
-            List<test> list = new List<test>();
-
-            
-            List<DateTime> currentDates = new List<DateTime>();
-            for (int i = 0; i < 30; i++)
+            for (int i = 1; i < 32; i++)
             {
-                currentdate = currentdate.AddDays(1);
-                try
+                timeLine.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                TextBlock textBlock = new TextBlock();
+                textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                textBlock.VerticalAlignment = VerticalAlignment.Center;
+                textBlock.Margin = new Thickness(5);
+                textBlock.Text = currentTime.ToLongDateString();
+                timeLine.Children.Add(textBlock);
+                Grid.SetColumn(textBlock, i);
+                Grid.SetRow(textBlock, 0);
+                currentTime = currentTime.AddDays(1);
+            }
+            timeLine.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            ls = db_mitraEntities.GetContext().Оборудование.ToList();
+            for (int i = 0; i < ls.Count; i++)
+            {
+                timeLine.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = ls[i].Название;
+                textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                textBlock.VerticalAlignment = VerticalAlignment.Center;
+                textBlock.Margin = new Thickness(5);
+                timeLine.Children.Add(textBlock);
+                Grid.SetColumn(textBlock, 0);
+                Grid.SetRow(textBlock, i+1);
+            }
+            //пошел костыль
+            DateTime date = DateTime.Now.Date;
+           
+            for (int i = 0; i < ls.Count; i++)
+            {
+                
+                for (int j = 1; j < 32; j++)
                 {
-                    Console.WriteLine("" + obj[i].Тип_оборудования.План.First().Периодичность);
-                    планDataGrid.Items.Add(new test { env = obj[i].Название, bedinDate = obj[i].Тип_оборудования.План.First().Data, period = obj[i].Тип_оборудования.План.First().Периодичность, pos = i, currentDate = currentdate });
                     
-                }
-                catch { 
-                }
+                    if (getDates(ls[i]).Contains(date.Date))
+                    {
 
-                var column = new DataGridTextColumn()
-                {
-                    Header = currentdate.ToLongDateString(),
-                    Binding = new Binding("test1")
-                };
-                планDataGrid.Columns.Add(column);
+                        TextBox textBox = new TextBox();
+                        textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        textBox.VerticalAlignment = VerticalAlignment.Stretch;
+                        textBox.Margin = new Thickness(5);
+                        try
+                        {
+                        
+                            if(ls[i].Наряд.First().Дата.Date == date.Date)
+                            {
+                                if(ls[i].Наряд.First().ID_Шаблона == 2)
+                                textBox.Background = Brushes.Blue;
+                                if(ls[i].Наряд.First().ID_Шаблона == 3)
+                                textBox.Background = Brushes.Red;
+
+                            }
+                            else
+                            {
+                                textBox.Background = Brushes.Green;
+                            }
+                        }
+                        catch
+                        {
+                            textBox.Background = Brushes.Green;
+                        }
+                        
+                        timeLine.Children.Add(textBox);
+                        Grid.SetRow(textBox, i+1);
+                        Grid.SetColumn(textBox, j);
+                        Console.WriteLine("true");
+                        
+                    }
+                    else { }
+
+                    Console.WriteLine("false");
+                    date = date.AddDays(1);
+                   
+                }
+                date = DateTime.Now.Date;
                 
             }
+            
 
         }
-
+        private List<DateTime> getDates(Оборудование i)
+        {
+            List<DateTime> datesWithPeriod = new List<DateTime>();
+            DateTime d = i.Data;
+            int period = i.Тип_оборудования.План.First().Периодичность;
+            for (int j = 0; j < 365/period; j++)
+            {
+                d = d.AddDays(period);
+                datesWithPeriod.Add(d.Date);
+            }
+            try
+            {
+                datesWithPeriod.Add(i.Наряд.First().Дата);
+            }
+            catch { }
+            
+            
+            return datesWithPeriod;
+        }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
 

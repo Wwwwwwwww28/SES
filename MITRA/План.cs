@@ -15,7 +15,6 @@ namespace MITRA
     public partial class План
     {
         public int ID_Оборудования { get; set; }
-        public System.DateTime Data { get; set; }
         public int Периодичность { get; set; }
     
         public virtual Тип_оборудования Тип_оборудования { get; set; }
