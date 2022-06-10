@@ -32,6 +32,5 @@ namespace MITRA
         public virtual Шаблон Шаблон { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Отчёт> Отчёт { get; set; }
-        public virtual Сотрудник Сотрудник { get; set; }
     }
 }

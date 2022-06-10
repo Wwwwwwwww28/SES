@@ -73,11 +73,11 @@ namespace MITRA.Main
         }
         private void MachinewBC(object sender, RoutedEventArgs e)
         {
-            //App.ParentWindowRef.ParentFrame.Navigate(new Machin.MachinePage(account));
+            ((MainWindow)parent).ParentFrame.Navigate(new Machin.MachinePage(account));
         }
         private void MaterialBC(object sender, RoutedEventArgs e)
         {
-
+            ((MainWindow)parent).ParentFrame.Navigate(new Equip.EquipPage(account));
         }
         private void EmployeesBC(object sender, RoutedEventArgs e)
         {

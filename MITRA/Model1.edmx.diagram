@@ -27,7 +27,6 @@
         <AssociationConnector Association="db_mitraModel.FK_Оборудование_Тип_оборудования" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Расход_Отчёт" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Учётная_запись_Сотрудник" ManuallyRouted="false" />
-        <AssociationConnector Association="db_mitraModel.Наряд_Сотрудник" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_План_Тип_оборудования" />
       </Diagram>
     </edmx:Diagrams>

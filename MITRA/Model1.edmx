@@ -41,13 +41,6 @@
           <Property Name="ID_Состояния" Type="int" Nullable="false" />
           <Property Name="ID_Шаблона" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Наряд_Сотрудник">
-          <Key>
-            <PropertyRef Name="ID_Наряда" />
-          </Key>
-          <Property Name="ID_Наряда" Type="int" Nullable="false" />
-          <Property Name="ID_Сотрудника" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Оборудование">
           <Key>
             <PropertyRef Name="ID" />
@@ -153,30 +146,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Наряд_Сотрудник_Наряд">
-          <End Role="Наряд" Type="Self.Наряд" Multiplicity="1" />
-          <End Role="Наряд_Сотрудник" Type="Self.Наряд_Сотрудник" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Наряд">
-              <PropertyRef Name="Номер" />
-            </Principal>
-            <Dependent Role="Наряд_Сотрудник">
-              <PropertyRef Name="ID_Наряда" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Наряд_Сотрудник_Сотрудник">
-          <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="1" />
-          <End Role="Наряд_Сотрудник" Type="Self.Наряд_Сотрудник" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Сотрудник">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Наряд_Сотрудник">
-              <PropertyRef Name="ID_Сотрудника" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Наряд_Шаблон">
           <End Role="Шаблон" Type="Self.Шаблон" Multiplicity="1" />
           <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
@@ -274,6 +243,9 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="GetEmployees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderId" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -309,7 +281,6 @@
           <EntitySet Name="Должность" EntityType="Self.Должность" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Материал" EntityType="Self.Материал" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Наряд" EntityType="Self.Наряд" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Наряд_Сотрудник" EntityType="Self.Наряд_Сотрудник" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Оборудование" EntityType="Self.Оборудование" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Отчёт" EntityType="Self.Отчёт" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Состояние" EntityType="Self.Состояние" Schema="dbo" store:Type="Tables" />
@@ -343,14 +314,6 @@
           <AssociationSet Name="FK_Наряд_Состояние" Association="Self.FK_Наряд_Состояние">
             <End Role="Состояние" EntitySet="Состояние" />
             <End Role="Наряд" EntitySet="Наряд" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Наряд_Сотрудник_Наряд" Association="Self.FK_Наряд_Сотрудник_Наряд">
-            <End Role="Наряд" EntitySet="Наряд" />
-            <End Role="Наряд_Сотрудник" EntitySet="Наряд_Сотрудник" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Наряд_Сотрудник_Сотрудник" Association="Self.FK_Наряд_Сотрудник_Сотрудник">
-            <End Role="Сотрудник" EntitySet="Сотрудник" />
-            <End Role="Наряд_Сотрудник" EntitySet="Наряд_Сотрудник" />
           </AssociationSet>
           <AssociationSet Name="FK_Наряд_Шаблон" Association="Self.FK_Наряд_Шаблон">
             <End Role="Шаблон" EntitySet="Шаблон" />
@@ -430,7 +393,6 @@
           <NavigationProperty Name="Состояние" Relationship="Self.FK_Наряд_Состояние" FromRole="Наряд" ToRole="Состояние" />
           <NavigationProperty Name="Шаблон" Relationship="Self.FK_Наряд_Шаблон" FromRole="Наряд" ToRole="Шаблон" />
           <NavigationProperty Name="Отчёт" Relationship="Self.FK_Отчёт_Наряд" FromRole="Наряд" ToRole="Отчёт" />
-          <NavigationProperty Name="Сотрудник" Relationship="Self.Наряд_Сотрудник" FromRole="Наряд" ToRole="Сотрудник" />
         </EntityType>
         <EntityType Name="Оборудование">
           <Key>
@@ -471,7 +433,6 @@
           <Property Name="ID_Должности" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Должность" Relationship="Self.FK_Сотрудник_Должность" FromRole="Сотрудник" ToRole="Должность" />
           <NavigationProperty Name="Учётная_запись" Relationship="Self.FK_Учётная_запись_Сотрудник" FromRole="Сотрудник" ToRole="Учётная_запись" />
-          <NavigationProperty Name="Наряд" Relationship="Self.Наряд_Сотрудник" FromRole="Сотрудник" ToRole="Наряд" />
         </EntityType>
         <EntityType Name="Тип_оборудования">
           <Key>
@@ -630,10 +591,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Наряд_Сотрудник">
-          <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
-          <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="0..1" />
-        </Association>
         <EntityContainer Name="db_mitraEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Должность" EntityType="Self.Должность" />
@@ -684,10 +641,6 @@
             <End Role="Сотрудник" EntitySet="Сотрудник" />
             <End Role="Учётная_запись" EntitySet="Учётная_запись" />
           </AssociationSet>
-          <AssociationSet Name="Наряд_Сотрудник" Association="Self.Наряд_Сотрудник">
-            <End Role="Наряд" EntitySet="Наряд" />
-            <End Role="Сотрудник" EntitySet="Сотрудник" />
-          </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -722,6 +675,9 @@
             <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
             <End Role="План" EntitySet="План" />
           </AssociationSet>
+          <FunctionImport Name="GetEmployees" ReturnType="Collection(db_mitraModel.GetEmployees_Result)">
+            <Parameter Name="OrderId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -746,6 +702,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetEmployees_Result">
+          <Property Type="Int32" Name="ID_Сотрудника" Nullable="false" />
+          <Property Type="String" Name="ФИО" Nullable="false" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -871,14 +831,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Наряд_Сотрудник" TypeName="db_mitraModel.Наряд_Сотрудник" StoreEntitySet="Наряд_Сотрудник">
-            <EndProperty Name="Наряд">
-              <ScalarProperty Name="Номер" ColumnName="ID_Наряда" />
-            </EndProperty>
-            <EndProperty Name="Сотрудник">
-              <ScalarProperty Name="ID" ColumnName="ID_Сотрудника" />
-            </EndProperty>
-          </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище db_mitraModel.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище db_mitraModel.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище db_mitraModel.sp_dropdiagram" />
@@ -903,6 +855,14 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище db_mitraModel.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище db_mitraModel.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="GetEmployees" FunctionName="Хранилище db_mitraModel.GetEmployees">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_mitraModel.GetEmployees_Result">
+                <ScalarProperty Name="ID_Сотрудника" ColumnName="ID_Сотрудника" />
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

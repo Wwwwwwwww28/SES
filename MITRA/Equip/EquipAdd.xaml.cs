@@ -23,45 +23,46 @@ namespace MITRA.Equip
         int s = 0;
         int form;
 
-        private Оборудование machin = new Оборудование();
-        public EquipAdd(Оборудование _selectMachine, int _form)
+        private Материал equip = new Материал();
+        public EquipAdd(Материал _selectEquip, int _form)
         {
             InitializeComponent();
             s = 0;
             form = _form;
-            if (_selectMachine != null)
+            if (_selectEquip != null)
             {
                 s = 1;
-                machin = _selectMachine;
+                equip = _selectEquip;
             }
-            DataContext = machin;
-            ComboPost.ItemsSource = db_mitraEntities.GetContext().Тип_оборудования.ToList();
+            DataContext = equip;
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder errors = new StringBuilder();
-            if (string.IsNullOrWhiteSpace(machin.Название))
+            if (string.IsNullOrWhiteSpace(equip.Название))
                 errors.AppendLine("Укажите Название");
             if (errors.Length > 0)
             {
                 MessageBox.Show(errors.ToString());
                 return;
             }
-            if (machin.ID_ТипОборудования == 0)
-                db_mitraEntities.GetContext().Оборудование.Add(machin);
             try
             {
-                db_mitraEntities.GetContext().SaveChanges();
-                if (s == 1)
-                {
-                    MessageBox.Show("Изменение успешно!");
-                }
-                else
-                {
-                    MessageBox.Show("Добавление успешно!");
-                }
+                string name;
+                int quantity;
 
-                App.ParentWindowRef.ParentFrame.Navigate(new EquipPage(form));
+                name = txtMatName.Text;
+                quantity = Int32.Parse(txtMatQuant.Text);
+
+                db_mitraEntities.GetContext().Материал.Add(new Материал() { Название = name, Кол_во = quantity });
+                db_mitraEntities.GetContext().SaveChanges();
+                MessageBox.Show("Добавление успешно!");
+
+
+                //db_mitraEntities.GetContext().SaveChanges();
+
+
+                ////App.ParentWindowRef.ParentFrame.Navigate(new EquipPage(form));
             }
             catch (Exception ex)
             {

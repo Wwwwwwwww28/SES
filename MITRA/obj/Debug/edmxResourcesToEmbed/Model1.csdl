@@ -41,7 +41,6 @@
     <NavigationProperty Name="Состояние" Relationship="Self.FK_Наряд_Состояние" FromRole="Наряд" ToRole="Состояние" />
     <NavigationProperty Name="Шаблон" Relationship="Self.FK_Наряд_Шаблон" FromRole="Наряд" ToRole="Шаблон" />
     <NavigationProperty Name="Отчёт" Relationship="Self.FK_Отчёт_Наряд" FromRole="Наряд" ToRole="Отчёт" />
-    <NavigationProperty Name="Сотрудник" Relationship="Self.Наряд_Сотрудник" FromRole="Наряд" ToRole="Сотрудник" />
   </EntityType>
   <EntityType Name="Оборудование">
     <Key>
@@ -82,7 +81,6 @@
     <Property Name="ID_Должности" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Должность" Relationship="Self.FK_Сотрудник_Должность" FromRole="Сотрудник" ToRole="Должность" />
     <NavigationProperty Name="Учётная_запись" Relationship="Self.FK_Учётная_запись_Сотрудник" FromRole="Сотрудник" ToRole="Учётная_запись" />
-    <NavigationProperty Name="Наряд" Relationship="Self.Наряд_Сотрудник" FromRole="Сотрудник" ToRole="Наряд" />
   </EntityType>
   <EntityType Name="Тип_оборудования">
     <Key>
@@ -241,10 +239,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="Наряд_Сотрудник">
-    <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
-    <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="0..1" />
-  </Association>
   <EntityContainer Name="db_mitraEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="Должность" EntityType="Self.Должность" />
@@ -295,10 +289,6 @@
       <End Role="Сотрудник" EntitySet="Сотрудник" />
       <End Role="Учётная_запись" EntitySet="Учётная_запись" />
     </AssociationSet>
-    <AssociationSet Name="Наряд_Сотрудник" Association="Self.Наряд_Сотрудник">
-      <End Role="Наряд" EntitySet="Наряд" />
-      <End Role="Сотрудник" EntitySet="Сотрудник" />
-    </AssociationSet>
     <FunctionImport Name="sp_alterdiagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -333,6 +323,9 @@
       <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
       <End Role="План" EntitySet="План" />
     </AssociationSet>
+    <FunctionImport Name="GetEmployees" ReturnType="Collection(db_mitraModel.GetEmployees_Result)">
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -357,4 +350,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <ComplexType Name="GetEmployees_Result">
+    <Property Type="Int32" Name="ID_Сотрудника" Nullable="false" />
+    <Property Type="String" Name="ФИО" Nullable="false" MaxLength="50" />
+  </ComplexType>
 </Schema>

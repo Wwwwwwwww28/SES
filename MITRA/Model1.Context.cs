@@ -21,12 +21,13 @@ namespace MITRA
             : base("name=db_mitraEntities")
         {
         }
-        public static db_mitraEntities _context;
-
+        private static db_mitraEntities _context;
         public static db_mitraEntities GetContext()
         {
-            if (_context == null)
-                _context = new db_mitraEntities();
+            if(_context == null)
+            {
+                return _context = new db_mitraEntities();
+            }
             return _context;
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -149,6 +150,15 @@ namespace MITRA
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual ObjectResult<GetEmployees_Result> GetEmployees(Nullable<int> orderId)
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetEmployees_Result>("GetEmployees", orderIdParameter);
         }
     }
 }

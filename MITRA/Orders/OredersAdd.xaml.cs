@@ -36,6 +36,8 @@ namespace MITRA.Oreders
             }
             DataContext = machin;
             ComboPost.ItemsSource = db_mitraEntities.GetContext().Тип_оборудования.ToList();
+
+            lbEmpl.ItemsSource = db_mitraEntities.GetContext().Сотрудник.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -71,6 +73,11 @@ namespace MITRA.Oreders
         }
 
         private void ComboPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ComboName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

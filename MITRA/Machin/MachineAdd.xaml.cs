@@ -61,7 +61,7 @@ namespace MITRA.Machin
                     MessageBox.Show("Добавление успешно!");
                 }
 
-                App.ParentWindowRef.ParentFrame.Navigate(new MachinePage(form));
+                //App.ParentWindowRef.ParentFrame.Navigate(new MachinePage(form));
             }
             catch (Exception ex)
             {

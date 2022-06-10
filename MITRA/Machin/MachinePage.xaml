@@ -17,7 +17,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="номерColumn" Binding="{Binding ID}" Header="Номер" Width="Auto"/>
                 <DataGridTextColumn x:Name="должностьColumn" Binding="{Binding Название}" Header="Название" Width="Auto"/>
-                <DataGridTextColumn x:Name="кабинетColumn" Binding="{Binding Тип_оборудованиея.Название}" Header="Тип" Width="Auto"/>
+                <DataGridTextColumn x:Name="кабинетColumn" Binding="{Binding Тип_оборудования.Название}" Header="Тип" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
 

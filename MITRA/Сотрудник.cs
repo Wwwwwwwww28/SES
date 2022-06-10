@@ -18,7 +18,6 @@ namespace MITRA
         public Сотрудник()
         {
             this.Учётная_запись = new HashSet<Учётная_запись>();
-            this.Наряд = new HashSet<Наряд>();
         }
     
         public int ID { get; set; }
@@ -28,7 +27,5 @@ namespace MITRA
         public virtual Должность Должность { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Учётная_запись> Учётная_запись { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Наряд> Наряд { get; set; }
     }
 }
