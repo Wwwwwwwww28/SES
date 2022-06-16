@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,7 @@ namespace MITRA.Oreders
     public partial class OredersPage : Page
     {
         int form;
+        List<Наряд> gridList;
         private Оборудование worker = new Оборудование();
         public OredersPage(Учётная_запись account)
         {
@@ -31,44 +33,42 @@ namespace MITRA.Oreders
                 BtnDel.Visibility = Visibility.Hidden;*/
             }
             DataContext = worker;
-            оборудованиеDataGrid.ItemsSource = db_mitraEntities.GetContext().Оборудование.ToList();
-            ComboType.ItemsSource = db_mitraEntities.GetContext().Тип_оборудования.ToList();
+            gridList = new List<Наряд>();
+            оборудованиеDataGrid.ItemsSource = db_mitraEntities.GetContext().Наряд.ToList();
+            ComboType.ItemsSource = db_mitraEntities.GetContext().Шаблон.ToList();
+            ComboStatus.ItemsSource = db_mitraEntities.GetContext().Состояние.ToList();
         }
-        private void ComboPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var db = ComboType.SelectedItem as Тип_оборудования;
-            var filteredData = db_mitraEntities.GetContext().Оборудование.Local.ToList().Where(x => x.ID_ТипОборудования == db.ID);
-            оборудованиеDataGrid.ItemsSource = filteredData.Count() > 0 ? filteredData : filteredData.ToArray();
-        }
+        
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string belfast = Search.Text;
-            var biba = db_mitraEntities.GetContext().Оборудование.Where(x => x.Название.Contains(belfast)).ToList();
-            оборудованиеDataGrid.ItemsSource = biba;
+            string str = ((TextBox)sender).Text.Replace(new Regex(" *").ToString(), " ");
+            
+            Filter();
         }
         private void BtnCansel_Click(object sender, RoutedEventArgs e)
         {
-            оборудованиеDataGrid.ItemsSource = db_mitraEntities.GetContext().Оборудование.ToList();
+            /*оборудованиеDataGrid.ItemsSource = db_mitraEntities.GetContext().Оборудование.ToList();*/
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd(null, form));
+            App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd(null));
         }
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
+
             if (оборудованиеDataGrid.SelectedItem != null)
             {
-                App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd((оборудованиеDataGrid.SelectedItem as Оборудование), form));
+                App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd(оборудованиеDataGrid.SelectedItem as Наряд));
             }
             else
             {
-                MessageBox.Show("Выберите Сотрудника!");
+                MessageBox.Show("Выберите наряд!");
             }
         }
 
         private void BtnDel_Click(object sender, RoutedEventArgs e)
         {
-            if (оборудованиеDataGrid.SelectedItem != null)
+            /*if (оборудованиеDataGrid.SelectedItem != null)
             {
                 var WorkersForRemoving = оборудованиеDataGrid.SelectedItems.Cast<Оборудование>().ToList();
                 if (MessageBox.Show($"Вы точно хотите удалить следующее {WorkersForRemoving.Count()} элементов?", "Внимание",
@@ -92,16 +92,69 @@ namespace MITRA.Oreders
             else
             {
                 MessageBox.Show("Выберите Рабочего!");
-            }
+            }*/
         }
 
         private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (Visibility == Visibility.Visible)
+           /* if (Visibility == Visibility.Visible)
             {
                 db_mitraEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
                 оборудованиеDataGrid.ItemsSource = db_mitraEntities.GetContext().Оборудование.ToList();
+            }*/
+        }
+
+        private void ComboStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Filter();
+        }
+
+        private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Filter();
+        }
+        private void Filter()
+        {
+            gridList = db_mitraEntities.GetContext().Наряд.ToList();
+            try
+            {
+                if(ComboType.SelectedItem != null)
+                {
+                    var type = ComboType.SelectedItem as Шаблон;
+                    gridList = gridList.Where(x => x.ID_Шаблона == type.ID).ToList();
+                }
+                
             }
+            catch { }
+
+            try
+            {
+                if(ComboStatus.SelectedItem != null)
+                {
+                    var status = ComboStatus.SelectedItem as Состояние;
+                    gridList = gridList.Where(x => x.ID_Состояния == status.ID).ToList();
+                }
+                
+            }
+            catch { }
+            try
+            {
+                gridList = gridList.Where(x => x.Оборудование.Название.Contains(Search.Text.ToString())).ToList();
+            }
+            catch { }
+            
+            оборудованиеDataGrid.ItemsSource = gridList;
+            оборудованиеDataGrid.Items.Refresh();
+        }
+
+        private void Search_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            
+        }
+
+        private void Search_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            
         }
     }
 }
