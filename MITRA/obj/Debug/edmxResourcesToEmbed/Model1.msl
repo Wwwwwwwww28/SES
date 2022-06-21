@@ -32,6 +32,7 @@
     <EntitySetMapping Name="Наряд">
       <EntityTypeMapping TypeName="db_mitraModel.Наряд">
         <MappingFragment StoreEntitySet="Наряд">
+          <ScalarProperty Name="Описание" ColumnName="Описание" />
           <ScalarProperty Name="Номер" ColumnName="Номер" />
           <ScalarProperty Name="ID_Оборудования" ColumnName="ID_Оборудования" />
           <ScalarProperty Name="Дата" ColumnName="Дата" />
@@ -54,9 +55,10 @@
     <EntitySetMapping Name="Отчёт">
       <EntityTypeMapping TypeName="db_mitraModel.Отчёт">
         <MappingFragment StoreEntitySet="Отчёт">
+          <ScalarProperty Name="Дата" ColumnName="Дата" />
+          <ScalarProperty Name="Описание" ColumnName="Описание" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Номер_Наряда" ColumnName="Номер_Наряда" />
-          <ScalarProperty Name="Дата" ColumnName="Дата" />
           <ScalarProperty Name="Результат" ColumnName="Результат" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -81,6 +83,7 @@
     <EntitySetMapping Name="Тип_оборудования">
       <EntityTypeMapping TypeName="db_mitraModel.Тип_оборудования">
         <MappingFragment StoreEntitySet="Тип_оборудования">
+          <ScalarProperty Name="Периодичность" ColumnName="Периодичность" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Название" ColumnName="Название" />
         </MappingFragment>
@@ -91,14 +94,6 @@
         <MappingFragment StoreEntitySet="Шаблон">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Название" ColumnName="Название" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="План">
-      <EntityTypeMapping TypeName="db_mitraModel.План">
-        <MappingFragment StoreEntitySet="План">
-          <ScalarProperty Name="ID_Оборудования" ColumnName="ID_Оборудования" />
-          <ScalarProperty Name="Периодичность" ColumnName="Периодичность" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -152,5 +147,14 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <EntitySetMapping Name="Наряд_Сотрудник">
+      <EntityTypeMapping TypeName="db_mitraModel.Наряд_Сотрудник">
+        <MappingFragment StoreEntitySet="Наряд_Сотрудник">
+          <ScalarProperty Name="ID_Сотрудника" ColumnName="ID_Сотрудника" />
+          <ScalarProperty Name="ID_Наряда" ColumnName="ID_Наряда" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

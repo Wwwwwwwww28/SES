@@ -5,16 +5,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MITRA.Machin"
       mc:Ignorable="d" 
-      d:DesignHeight="200" d:DesignWidth="500"
+      d:DesignHeight="300" d:DesignWidth="500"
       Title="OredersAdd">
     <Grid  Background="LightGray"  Margin="0,0,0,-86" >
         <Grid.RowDefinitions >
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -26,7 +27,7 @@
 
         <ComboBox SelectedItem="{Binding Оборудование}" Grid.Column="1" Grid.Row="0" Height="30" x:Name="cmbEnv"  Margin="0,0,10,0" SelectionChanged="ComboName_SelectionChanged"  DisplayMemberPath="Название"/>
         <ComboBox x:Name="cmbType" SelectedItem="{Binding Шаблон}" Grid.Column="1" Grid.Row="2" Height="30"  Margin="0,0,10,0" SelectionChanged="ComboPost_SelectionChanged" DisplayMemberPath="Название"/>
-        <DatePicker x:Name="Calendar" Grid.Row="1" Grid.Column="1" Height="30" Margin="0, 0, 10, 0"/>
+        <DatePicker x:Name="calendar" Grid.Row="1" Grid.Column="1" Height="30" Margin="0, 0, 10, 0"/>
         <Grid Grid.Row="3" Grid.RowSpan="2" Grid.ColumnSpan ="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition>
@@ -44,6 +45,9 @@
             <Button x:Name="btnAddEmpl" Content="→" Grid.Column="1" Height="30" VerticalAlignment="Top" Margin="5" Click="btnAddEmpl_Click"/>
             <Button x:Name="btnRemEmpl" Content="←" Grid.Column="1" Height="30" VerticalAlignment="Bottom" Margin="5" Click="btnRemEmpl_Click"/>
         </Grid>
-        <Button x:Name="btnAdd" VerticalAlignment="Top" Content="Добавить" Grid.Row="5" Grid.ColumnSpan="2" Height="30" Width="150" Click="btnAdd_Click_1"/>
+        <Grid Grid.Row="5" Grid.ColumnSpan ="2" Margin="5">
+            <RichTextBox x:Name="discTextBox" Grid.Row="5"></RichTextBox>
+        </Grid>
+        <Button x:Name="btnAdd" VerticalAlignment="Center" Content="Добавить" Grid.Row="6" Grid.ColumnSpan="2" Height="30" Width="150" Click="btnAdd_Click_1"/>
     </Grid>
 </Page>

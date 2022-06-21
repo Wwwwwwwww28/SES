@@ -21,34 +21,34 @@ namespace MITRA.Empl
     public partial class EmplAdd : Page
     {
         int s = 0;
-        int form;
+        Учётная_запись acc;
 
-        private Оборудование machin = new Оборудование();
-        public EmplAdd(Оборудование _selectMachine, int _form)
+        private Сотрудник empl = new Сотрудник();
+        public EmplAdd(Сотрудник _selectedEmpl, Учётная_запись acc)
         {
             InitializeComponent();
             s = 0;
-            form = _form;
-            if (_selectMachine != null)
+            this.acc = acc;
+            if (_selectedEmpl != null)
             {
                 s = 1;
-                machin = _selectMachine;
+                empl = _selectedEmpl;
             }
-            DataContext = machin;
-            ComboPost.ItemsSource = db_mitraEntities.GetContext().Тип_оборудования.ToList();
+            DataContext = empl;
+            ComboPost.ItemsSource = db_mitraEntities.GetContext().Должность.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder errors = new StringBuilder();
-            if (string.IsNullOrWhiteSpace(machin.Название))
+            if (string.IsNullOrWhiteSpace(empl.ФИО))
                 errors.AppendLine("Укажите Название");
             if (errors.Length > 0)
             {
                 MessageBox.Show(errors.ToString());
                 return;
             }
-            if (machin.ID_ТипОборудования == 0)
-                db_mitraEntities.GetContext().Оборудование.Add(machin);
+            if (empl.ID == 0)
+                db_mitraEntities.GetContext().Сотрудник.Add(empl);
             try
             {
                 db_mitraEntities.GetContext().SaveChanges();
@@ -61,7 +61,7 @@ namespace MITRA.Empl
                     MessageBox.Show("Добавление успешно!");
                 }
 
-                App.ParentWindowRef.ParentFrame.Navigate(new EmplPage(form));
+                App.ParentWindowRef.ParentFrame.Navigate(new EmplPage(acc));
             }
             catch (Exception ex)
             {

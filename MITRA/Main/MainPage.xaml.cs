@@ -64,7 +64,6 @@ namespace MITRA.Main
 
         private void OrderBC(object sender, RoutedEventArgs e)
         {
-           
             ((MainWindow)parent).ParentFrame.Navigate(new OredersPage(account));
         }
         private void PlanBC(object sender, RoutedEventArgs e)
@@ -81,7 +80,7 @@ namespace MITRA.Main
         }
         private void EmployeesBC(object sender, RoutedEventArgs e)
         {
-
+            ((MainWindow)parent).ParentFrame.Navigate(new Empl.EmplPage(account));
         }
     }
 }

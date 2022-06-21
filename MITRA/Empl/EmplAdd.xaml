@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:MITRA.Machin"
+      xmlns:local="clr-namespace:MITRA.Empl"
       mc:Ignorable="d" 
       d:DesignHeight="200" d:DesignWidth="500"
       Title="EmplAdd">
@@ -17,11 +17,11 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Название" Height="30" Width="100" />
-        <TextBlock Text="Тип" Grid.Row="1" Height="30" Width="100"/>
+        <TextBlock Text="ФИО" Height="30" Width="100" />
+        <TextBlock Text="Должность" Grid.Row="1" Height="30" Width="100"/>
 
-        <TextBox Text="{Binding Название}" Grid.Column="1" Height="30" Margin="0,0,10,0" />
-        <ComboBox SelectedItem="{Binding Тип_оборудования}" Grid.Column="1" Grid.Row="1" Height="30" x:Name="ComboPost"  Margin="0,0,10,0" SelectionChanged="ComboPost_SelectionChanged" DisplayMemberPath="Название"/>
+        <TextBox  x:Name="txtEmplName" Text="{Binding ФИО}" Grid.Column="1" Height="30" Margin="0,0,10,0" />
+        <ComboBox x:Name="ComboPost" SelectedItem="{Binding Должность}" Grid.Column="1" Grid.Row="1" Height="30" Margin="0,0,10,0" SelectionChanged="ComboPost_SelectionChanged" DisplayMemberPath="Название"/>
 
         <Button Content="Сохранить" Grid.ColumnSpan="2" Grid.Row="9" Grid.Column="0"  Width="200" Height="25" Name="BtnAdd" Click="BtnAdd_Click" />
         <Grid Panel.ZIndex="-2" Background="Gray" Grid.Row="9" Grid.ColumnSpan="2"/>

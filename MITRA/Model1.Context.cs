@@ -24,12 +24,13 @@ namespace MITRA
         private static db_mitraEntities _context;
         public static db_mitraEntities GetContext()
         {
-            if(_context == null)
+            if (_context == null)
             {
                 return _context = new db_mitraEntities();
             }
             return _context;
         }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -45,9 +46,9 @@ namespace MITRA
         public virtual DbSet<Сотрудник> Сотрудник { get; set; }
         public virtual DbSet<Тип_оборудования> Тип_оборудования { get; set; }
         public virtual DbSet<Шаблон> Шаблон { get; set; }
-        public virtual DbSet<План> План { get; set; }
         public virtual DbSet<Расход> Расход { get; set; }
         public virtual DbSet<Учётная_запись> Учётная_запись { get; set; }
+        public virtual DbSet<Наряд_Сотрудник> Наряд_Сотрудник { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

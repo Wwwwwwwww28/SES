@@ -13,10 +13,11 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="оборудованиеDataGrid"  AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True"   Margin="10" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="0">
+        <DataGrid x:Name="нарядDataGrid"  AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True"   Margin="10" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="numberColumn" Binding="{Binding Номер}" Header="Номер" Width="50"/>
                 <DataGridTextColumn x:Name="envColumn" Binding="{Binding Оборудование.Название}" Header="Оборудование" Width="*"/>
+                <DataGridTextColumn x:Name="detaColumn" Binding="{Binding Дата}" Header="Дата" Width="*"/>
                 <DataGridTextColumn x:Name="typeColumn" Binding="{Binding Шаблон.Название}" Header="Тип" Width="*"/>
                 <DataGridTextColumn x:Name="statusColumn" Binding="{Binding Состояние.Название}" Header="Статус" Width="*"/>
             </DataGrid.Columns>

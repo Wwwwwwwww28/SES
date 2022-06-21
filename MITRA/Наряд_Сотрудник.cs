@@ -12,11 +12,13 @@ namespace MITRA
     using System;
     using System.Collections.Generic;
     
-    public partial class План
+    public partial class Наряд_Сотрудник
     {
-        public int ID_Оборудования { get; set; }
-        public int Периодичность { get; set; }
+        public int ID { get; set; }
+        public int ID_Наряда { get; set; }
+        public int ID_Сотрудника { get; set; }
     
-        public virtual Тип_оборудования Тип_оборудования { get; set; }
+        public virtual Наряд Наряд { get; set; }
+        public virtual Сотрудник Сотрудник { get; set; }
     }
 }

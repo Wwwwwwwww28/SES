@@ -20,16 +20,12 @@ namespace MITRA.Equip
     /// </summary>
     public partial class EquipPage : Page
     {
-        int form;
         private Материал equip = new Материал();
+        Учётная_запись acc = new Учётная_запись();
         public EquipPage(Учётная_запись account)
         {
             InitializeComponent();
-            if (form == 0)
-            {
-               // BtnAdd.Visibility = Visibility.Hidden;
-               // BtnDel.Visibility = Visibility.Hidden;
-            }
+            acc = account;
             DataContext = equip;
             материалDataGrid.ItemsSource = db_mitraEntities.GetContext().Материал.ToList();
         }
@@ -41,21 +37,22 @@ namespace MITRA.Equip
         }
         private void BtnCansel_Click(object sender, RoutedEventArgs e)
         {
+            Search.Text = "";
             материалDataGrid.ItemsSource = db_mitraEntities.GetContext().Материал.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            App.ParentWindowRef.ParentFrame.Navigate(new EquipAdd(null, form));
+            App.ParentWindowRef.ParentFrame.Navigate(new EquipAdd(null, acc));
         }
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
             if (материалDataGrid.SelectedItem != null)
             {
-                App.ParentWindowRef.ParentFrame.Navigate(new EquipAdd((материалDataGrid.SelectedItem as Материал), form));
+                App.ParentWindowRef.ParentFrame.Navigate(new EquipAdd((материалDataGrid.SelectedItem as Материал), acc));
             }
             else
             {
-                MessageBox.Show("Выберите Сотрудника!");
+                MessageBox.Show("Выберите Материал!");
             }
         }
 

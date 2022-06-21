@@ -21,14 +21,14 @@ namespace MITRA.Equip
     public partial class EquipAdd : Page
     {
         int s = 0;
-        int form;
+        Учётная_запись acc;
 
         private Материал equip = new Материал();
-        public EquipAdd(Материал _selectEquip, int _form)
+        public EquipAdd(Материал _selectEquip, Учётная_запись acc)
         {
             InitializeComponent();
             s = 0;
-            form = _form;
+            this.acc = acc;
             if (_selectEquip != null)
             {
                 s = 1;
@@ -46,23 +46,21 @@ namespace MITRA.Equip
                 MessageBox.Show(errors.ToString());
                 return;
             }
+            if (equip.ID == 0)
+                db_mitraEntities.GetContext().Материал.Add(equip);
             try
             {
-                string name;
-                int quantity;
-
-                name = txtMatName.Text;
-                quantity = Int32.Parse(txtMatQuant.Text);
-
-                db_mitraEntities.GetContext().Материал.Add(new Материал() { Название = name, Кол_во = quantity });
                 db_mitraEntities.GetContext().SaveChanges();
-                MessageBox.Show("Добавление успешно!");
+                if (s == 1)
+                {
+                    MessageBox.Show("Изменение успешно!");
+                }
+                else
+                {
+                    MessageBox.Show("Добавление успешно!");
+                }
 
-
-                //db_mitraEntities.GetContext().SaveChanges();
-
-
-                ////App.ParentWindowRef.ParentFrame.Navigate(new EquipPage(form));
+                App.ParentWindowRef.ParentFrame.Navigate(new EquipPage(acc));
             }
             catch (Exception ex)
             {

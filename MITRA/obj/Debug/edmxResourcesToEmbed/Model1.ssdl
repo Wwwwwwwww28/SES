@@ -32,9 +32,18 @@
     <Property Name="Номер" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ID_Оборудования" Type="int" Nullable="false" />
     <Property Name="Дата" Type="date" Nullable="false" />
-    <Property Name="ID_Исполнителя" Type="int" Nullable="false" />
+    <Property Name="ID_Исполнителя" Type="int" />
     <Property Name="ID_Состояния" Type="int" Nullable="false" />
     <Property Name="ID_Шаблона" Type="int" Nullable="false" />
+    <Property Name="Описание" Type="varbinary" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Наряд_Сотрудник">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_Наряда" Type="int" Nullable="false" />
+    <Property Name="ID_Сотрудника" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Оборудование">
     <Key>
@@ -52,17 +61,8 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Номер_Наряда" Type="int" Nullable="false" />
     <Property Name="Дата" Type="date" Nullable="false" />
-    <Property Name="Результат" Type="nvarchar" MaxLength="50" Nullable="false" />
-  </EntityType>
-  <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "db_mitra.dbo.План" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
-  <EntityType Name="План">
-    <Key>
-      <PropertyRef Name="ID_Оборудования" />
-      <PropertyRef Name="Периодичность" />
-    </Key>
-    <Property Name="ID_Оборудования" Type="int" Nullable="false" />
-    <Property Name="Периодичность" Type="int" Nullable="false" />
+    <Property Name="Описание" Type="nvarchar" MaxLength="50" />
+    <Property Name="Результат" Type="int" Nullable="false" />
   </EntityType>
   <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "db_mitra.dbo.Расход" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -97,6 +97,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Периодичность" Type="int" Nullable="false" />
   </EntityType>
   <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "db_mitra.dbo.Учётная_запись" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -141,6 +142,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Наряд_Сотрудник_Наряд1">
+    <End Role="Наряд" Type="Self.Наряд" Multiplicity="1" />
+    <End Role="Наряд_Сотрудник" Type="Self.Наряд_Сотрудник" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Наряд">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="Наряд_Сотрудник">
+        <PropertyRef Name="ID_Наряда" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Наряд_Сотрудник_Сотрудник1">
+    <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="1" />
+    <End Role="Наряд_Сотрудник" Type="Self.Наряд_Сотрудник" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Сотрудник">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Наряд_Сотрудник">
+        <PropertyRef Name="ID_Сотрудника" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Наряд_Шаблон">
     <End Role="Шаблон" Type="Self.Шаблон" Multiplicity="1" />
     <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
@@ -174,18 +199,6 @@
       </Principal>
       <Dependent Role="Отчёт">
         <PropertyRef Name="Номер_Наряда" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_План_Тип_оборудования">
-    <End Role="Тип_оборудования" Type="Self.Тип_оборудования" Multiplicity="1" />
-    <End Role="План" Type="Self.План" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Тип_оборудования">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="План">
-        <PropertyRef Name="ID_Оборудования" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -276,18 +289,13 @@
     <EntitySet Name="Должность" EntityType="Self.Должность" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Материал" EntityType="Self.Материал" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Наряд" EntityType="Self.Наряд" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Наряд_Сотрудник" EntityType="Self.Наряд_Сотрудник" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Оборудование" EntityType="Self.Оборудование" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Отчёт" EntityType="Self.Отчёт" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Состояние" EntityType="Self.Состояние" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Сотрудник" EntityType="Self.Сотрудник" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Тип_оборудования" EntityType="Self.Тип_оборудования" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Шаблон" EntityType="Self.Шаблон" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="План" EntityType="Self.План" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [План].[ID_Оборудования] AS [ID_Оборудования], 
-    [План].[Периодичность] AS [Периодичность]
-    FROM [dbo].[План] AS [План]</DefiningQuery>
-    </EntitySet>
     <EntitySet Name="Расход" EntityType="Self.Расход" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [Расход].[ID_Отчёта] AS [ID_Отчёта], 
@@ -310,6 +318,14 @@
       <End Role="Состояние" EntitySet="Состояние" />
       <End Role="Наряд" EntitySet="Наряд" />
     </AssociationSet>
+    <AssociationSet Name="FK_Наряд_Сотрудник_Наряд1" Association="Self.FK_Наряд_Сотрудник_Наряд1">
+      <End Role="Наряд" EntitySet="Наряд" />
+      <End Role="Наряд_Сотрудник" EntitySet="Наряд_Сотрудник" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Наряд_Сотрудник_Сотрудник1" Association="Self.FK_Наряд_Сотрудник_Сотрудник1">
+      <End Role="Сотрудник" EntitySet="Сотрудник" />
+      <End Role="Наряд_Сотрудник" EntitySet="Наряд_Сотрудник" />
+    </AssociationSet>
     <AssociationSet Name="FK_Наряд_Шаблон" Association="Self.FK_Наряд_Шаблон">
       <End Role="Шаблон" EntitySet="Шаблон" />
       <End Role="Наряд" EntitySet="Наряд" />
@@ -321,10 +337,6 @@
     <AssociationSet Name="FK_Отчёт_Наряд" Association="Self.FK_Отчёт_Наряд">
       <End Role="Наряд" EntitySet="Наряд" />
       <End Role="Отчёт" EntitySet="Отчёт" />
-    </AssociationSet>
-    <AssociationSet Name="FK_План_Тип_оборудования" Association="Self.FK_План_Тип_оборудования">
-      <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
-      <End Role="План" EntitySet="План" />
     </AssociationSet>
     <AssociationSet Name="FK_Расход_Материал" Association="Self.FK_Расход_Материал">
       <End Role="Материал" EntitySet="Материал" />

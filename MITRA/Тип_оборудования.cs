@@ -18,15 +18,13 @@ namespace MITRA
         public Тип_оборудования()
         {
             this.Оборудование = new HashSet<Оборудование>();
-            this.План = new HashSet<План>();
         }
     
         public int ID { get; set; }
         public string Название { get; set; }
+        public int Периодичность { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Оборудование> Оборудование { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<План> План { get; set; }
     }
 }

@@ -40,9 +40,9 @@ namespace MITRA.Oreders
             else
             {
                 s = 1;
-                
+                InitializeUI();
             }
-            InitializeUI();
+            
         }
 
         private void InitializeUI()
@@ -98,7 +98,8 @@ namespace MITRA.Oreders
             try
             {
                 Наряд order = new Наряд();
-                order.Дата = DateTime.Parse(Calendar.DisplayDate.ToShortDateString());
+                order.Дата = DateTime.Parse(calendar.DisplayDate.ToShortDateString());
+             //  order.Дата = DateTime.Parse(calendar.SelectedDate.ToString());
                 order.ID_Оборудования = (cmbEnv.SelectedItem as Оборудование).ID;
                 order.ID_Шаблона = (cmbType.SelectedItem as Шаблон).ID;
                 order.ID_Состояния = 1;
@@ -113,7 +114,7 @@ namespace MITRA.Oreders
                 MessageBox.Show("Успешно!");
 
             }
-            catch
+            catch(Exception x)
             {
                 MessageBox.Show("Ошибка!");
             }
