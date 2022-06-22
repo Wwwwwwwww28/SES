@@ -35,7 +35,7 @@ namespace MITRA.Empl
                 empl = _selectedEmpl;
             }
             DataContext = empl;
-            ComboPost.ItemsSource = db_mitraEntities.GetContext().Должность.ToList();
+            ComboPost.ItemsSource = db_mitraEntities1.GetContext().Должность.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -48,10 +48,10 @@ namespace MITRA.Empl
                 return;
             }
             if (empl.ID == 0)
-                db_mitraEntities.GetContext().Сотрудник.Add(empl);
+                db_mitraEntities1.GetContext().Сотрудник.Add(empl);
             try
             {
-                db_mitraEntities.GetContext().SaveChanges();
+                db_mitraEntities1.GetContext().SaveChanges();
                 if (s == 1)
                 {
                     MessageBox.Show("Изменение успешно!");

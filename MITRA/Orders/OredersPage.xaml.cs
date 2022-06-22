@@ -34,9 +34,9 @@ namespace MITRA.Oreders
             }
             DataContext = order;
             gridList = new List<Наряд>();
-            нарядDataGrid.ItemsSource = db_mitraEntities.GetContext().Наряд.ToList();
-            ComboType.ItemsSource = db_mitraEntities.GetContext().Шаблон.ToList();
-            ComboStatus.ItemsSource = db_mitraEntities.GetContext().Состояние.ToList();
+            нарядDataGrid.ItemsSource = db_mitraEntities1.GetContext().Наряд.ToList();
+            ComboType.ItemsSource = db_mitraEntities1.GetContext().Шаблон.ToList();
+            ComboStatus.ItemsSource = db_mitraEntities1.GetContext().Состояние.ToList();
         }
         
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
@@ -77,14 +77,14 @@ namespace MITRA.Oreders
                 {
                     try
                     {
-                      //  db_mitraEntities.GetContext().Наряд_Сотрудник.RemoveRange(WorkersForRemoving2);
-                        db_mitraEntities.GetContext().Наряд.RemoveRange(WorkersForRemoving);
-                     //   db_mitraEntities.GetContext().Наряд_Сотрудник.RemoveRange(WorkersForRemoving2);
-                        db_mitraEntities.GetContext().SaveChanges();
+                        //  db_mitraEntities.GetContext().Наряд_Сотрудник.RemoveRange(WorkersForRemoving2);
+                        db_mitraEntities1.GetContext().Наряд.RemoveRange(WorkersForRemoving);
+                        //   db_mitraEntities.GetContext().Наряд_Сотрудник.RemoveRange(WorkersForRemoving2);
+                        db_mitraEntities1.GetContext().SaveChanges();
                         MessageBox.Show("Данные удалены!");
 
 
-                        нарядDataGrid.ItemsSource = db_mitraEntities.GetContext().Наряд.ToList();
+                        нарядDataGrid.ItemsSource = db_mitraEntities1.GetContext().Наряд.ToList();
                     }
                     catch (Exception ex)
                     {
@@ -118,7 +118,7 @@ namespace MITRA.Oreders
         }
         private void Filter()
         {
-            gridList = db_mitraEntities.GetContext().Наряд.ToList();
+            gridList = db_mitraEntities1.GetContext().Наряд.ToList();
             try
             {
                 if(ComboType.SelectedItem != null)

@@ -50,7 +50,7 @@ namespace MITRA.Plan
                 currentTime = currentTime.AddDays(1);
             }
             timeLine.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            ls = db_mitraEntities.GetContext().Оборудование.ToList();
+            ls = db_mitraEntities1.GetContext().Оборудование.ToList();
             for (int i = 0; i < ls.Count; i++)
             {
                 timeLine.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -69,25 +69,20 @@ namespace MITRA.Plan
             {
                 for (int j = 1; j < 32; j++)
                 {
-
-
                     if (getDates(ls[i]).Contains(date.Date))
                     {
-
                         TextBox textBox = new TextBox();
                         textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
                         textBox.VerticalAlignment = VerticalAlignment.Stretch;
                         textBox.Margin = new Thickness(5);
                         try
                         {
-                            
                             if(ls[i].Наряд.First().Дата.Date == date.Date)
                             {
                                 if(ls[i].Наряд.First().ID_Шаблона == 2)
                                 textBox.Background = Brushes.Blue;
                                 if(ls[i].Наряд.First().ID_Шаблона == 3)
                                 textBox.Background = Brushes.Blue;
-
                             }
                             else
                             {

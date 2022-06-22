@@ -21,7 +21,7 @@ namespace MITRA.Oreders
     public partial class OredersAdd : Page
     {
         int s = 0;
-        List<Сотрудник> addsEmpls; 
+        List<Сотрудник> addsEmpls;
 
         private Оборудование machin = new Оборудование();
         private Наряд order;
@@ -31,25 +31,29 @@ namespace MITRA.Oreders
             InitializeComponent();
             this.order = order;
             DataContext = machin;
-            cmbType.ItemsSource = db_mitraEntities.GetContext().Шаблон.ToList();
-            cmbEnv.ItemsSource = db_mitraEntities.GetContext().Оборудование.ToList();
-            lbEmpl.ItemsSource = db_mitraEntities.GetContext().Сотрудник.ToList();
+            cmbType.ItemsSource = db_mitraEntities1.GetContext().Шаблон.ToList();
+            cmbEnv.ItemsSource = db_mitraEntities1.GetContext().Оборудование.ToList();
+            lbEmpl.ItemsSource = db_mitraEntities1.GetContext().Сотрудник.ToList();
             addsEmpls = new List<Сотрудник>();
             if (order == null)
             { s = 0; }
             else
             {
-                s = 1;
                 InitializeUI();
+                s = 1;
+
             }
-            
+
         }
 
         private void InitializeUI()
         {
-            Шаблон x = order.Шаблон;
-            cmbType.SelectedItem = x;
+            cmbType.SelectedItem = order.Шаблон;
             cmbEnv.SelectedItem = order.Оборудование;
+            btnAdd.Content = "Редактировать";
+            calendar.SelectedDate = order.Дата;
+            addsEmpls = db_mitraEntities1.GetContext().Database.SqlQuery<Сотрудник>("SELECT * FROM Сотрудник INNER JOIN Наряд_Сотрудник ON Сотрудник.ID=Наряд_Сотрудник.ID_Сотрудника WHERE Наряд_Сотрудник.ID_Наряда=" + order.Номер).ToList();
+            lbEmp2.ItemsSource = db_mitraEntities1.GetContext().Database.SqlQuery<Сотрудник>("SELECT * FROM Сотрудник INNER JOIN Наряд_Сотрудник ON Сотрудник.ID=Наряд_Сотрудник.ID_Сотрудника WHERE Наряд_Сотрудник.ID_Наряда=" + order.Номер).ToList();
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
@@ -63,10 +67,10 @@ namespace MITRA.Oreders
                 return;
             }
             if (machin.ID_ТипОборудования == 0)
-                db_mitraEntities.GetContext().Оборудование.Add(machin);
+                db_mitraEntities1.GetContext().Оборудование.Add(machin);
             try
             {
-                db_mitraEntities.GetContext().SaveChanges();
+                db_mitraEntities1.GetContext().SaveChanges();
                 if (s == 1)
                 {
                     MessageBox.Show("Изменение успешно!");
@@ -98,23 +102,30 @@ namespace MITRA.Oreders
             try
             {
                 Наряд order = new Наряд();
-                order.Дата = DateTime.Parse(calendar.DisplayDate.ToShortDateString());
-             //  order.Дата = DateTime.Parse(calendar.SelectedDate.ToString());
+
+/*                if (order == null)
+                {
+                    Наряд order = new Наряд();
+                }*/
+
+                order.Дата = System.DateTime.Parse(calendar.DisplayDate.ToShortDateString());
+                //  order.Дата = DateTime.Parse(calendar.SelectedDate.ToString());
+                // order.Дата = (DateTime)calendar.SelectedDate;
                 order.ID_Оборудования = (cmbEnv.SelectedItem as Оборудование).ID;
                 order.ID_Шаблона = (cmbType.SelectedItem as Шаблон).ID;
                 order.ID_Состояния = 1;
                 order.ID_Исполнителя = 1;
 
-                db_mitraEntities.GetContext().Наряд.Add(order);
-                db_mitraEntities.GetContext().SaveChanges();
+                db_mitraEntities1.GetContext().Наряд.Add(order);
+                db_mitraEntities1.GetContext().SaveChanges();
                 for (int i = 0; i < addsEmpls.Count; i++)
                 {
-                    db_mitraEntities.GetContext().Database.ExecuteSqlCommand("INSERT INTO Наряд_Сотрудник (ID_Наряда, ID_Сотрудника) VALUES (" + order.Номер + ", " + addsEmpls[i].ID + ")");
+                    db_mitraEntities1.GetContext().Database.ExecuteSqlCommand("INSERT INTO Наряд_Сотрудник (ID_Наряда, ID_Сотрудника) VALUES (" + order.Номер + ", " + addsEmpls[i].ID + ")");
                 }
                 MessageBox.Show("Успешно!");
 
             }
-            catch(Exception x)
+            catch
             {
                 MessageBox.Show("Ошибка!");
             }
@@ -143,6 +154,7 @@ namespace MITRA.Oreders
         {
             var empl = lbEmp2.SelectedItem as Сотрудник;
             addsEmpls.Remove(empl);
+
             refreshAddsEmlp();
         }
     }

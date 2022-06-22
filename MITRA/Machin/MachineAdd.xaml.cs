@@ -35,7 +35,7 @@ namespace MITRA.Machin
                 machin = _selectMachine;
             }
             DataContext = machin;
-            ComboPost.ItemsSource = db_mitraEntities.GetContext().Тип_оборудования.ToList();
+            ComboPost.ItemsSource = db_mitraEntities1.GetContext().Тип_оборудования.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -48,10 +48,10 @@ namespace MITRA.Machin
                 return;
             }
             if (machin.ID_ТипОборудования == 0)
-                db_mitraEntities.GetContext().Оборудование.Add(machin);
+                db_mitraEntities1.GetContext().Оборудование.Add(machin);
             try
             {
-                db_mitraEntities.GetContext().SaveChanges();
+                db_mitraEntities1.GetContext().SaveChanges();
                 if (s == 1)
                 {
                     MessageBox.Show("Изменение успешно!");

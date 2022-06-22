@@ -1,15 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="db_mitraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
   <EntityType Name="Должность">
     <Key>
       <PropertyRef Name="ID" />
@@ -37,12 +27,22 @@
     <Property Name="ID_Исполнителя" Type="Int32" />
     <Property Name="ID_Состояния" Type="Int32" Nullable="false" />
     <Property Name="ID_Шаблона" Type="Int32" Nullable="false" />
+    <Property Name="Описание" Type="Binary" MaxLength="50" FixedLength="false" />
     <NavigationProperty Name="Оборудование" Relationship="Self.FK_Наряд_Оборудование" FromRole="Наряд" ToRole="Оборудование" />
     <NavigationProperty Name="Состояние" Relationship="Self.FK_Наряд_Состояние" FromRole="Наряд" ToRole="Состояние" />
+    <NavigationProperty Name="Наряд_Сотрудник" Relationship="Self.FK_Наряд_Сотрудник_Наряд1" FromRole="Наряд" ToRole="Наряд_Сотрудник" />
     <NavigationProperty Name="Шаблон" Relationship="Self.FK_Наряд_Шаблон" FromRole="Наряд" ToRole="Шаблон" />
     <NavigationProperty Name="Отчёт" Relationship="Self.FK_Отчёт_Наряд" FromRole="Наряд" ToRole="Отчёт" />
-    <Property Name="Описание" Type="Binary" MaxLength="50" FixedLength="false" />
-    <NavigationProperty Name="Наряд_Сотрудник" Relationship="db_mitraModel.FK_Наряд_Сотрудник_Наряд1" FromRole="Наряд" ToRole="Наряд_Сотрудник" />
+  </EntityType>
+  <EntityType Name="Наряд_Сотрудник">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_Наряда" Type="Int32" Nullable="false" />
+    <Property Name="ID_Сотрудника" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Наряд" Relationship="Self.FK_Наряд_Сотрудник_Наряд1" FromRole="Наряд_Сотрудник" ToRole="Наряд" />
+    <NavigationProperty Name="Сотрудник" Relationship="Self.FK_Наряд_Сотрудник_Сотрудник1" FromRole="Наряд_Сотрудник" ToRole="Сотрудник" />
   </EntityType>
   <EntityType Name="Оборудование">
     <Key>
@@ -51,9 +51,9 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="ID_ТипОборудования" Type="Int32" Nullable="false" />
+    <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="Наряд" Relationship="Self.FK_Наряд_Оборудование" FromRole="Оборудование" ToRole="Наряд" />
     <NavigationProperty Name="Тип_оборудования" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Оборудование" ToRole="Тип_оборудования" />
-    <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
   </EntityType>
   <EntityType Name="Отчёт">
     <Key>
@@ -62,10 +62,10 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Номер_Наряда" Type="Int32" Nullable="false" />
     <Property Name="Дата" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Описание" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Результат" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Наряд" Relationship="Self.FK_Отчёт_Наряд" FromRole="Отчёт" ToRole="Наряд" />
     <NavigationProperty Name="Расход" Relationship="Self.FK_Расход_Отчёт" FromRole="Отчёт" ToRole="Расход" />
-    <Property Name="Описание" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Состояние">
     <Key>
@@ -83,8 +83,8 @@
     <Property Name="ФИО" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="ID_Должности" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Должность" Relationship="Self.FK_Сотрудник_Должность" FromRole="Сотрудник" ToRole="Должность" />
+    <NavigationProperty Name="Наряд_Сотрудник" Relationship="Self.FK_Наряд_Сотрудник_Сотрудник1" FromRole="Сотрудник" ToRole="Наряд_Сотрудник" />
     <NavigationProperty Name="Учётная_запись" Relationship="Self.FK_Учётная_запись_Сотрудник" FromRole="Сотрудник" ToRole="Учётная_запись" />
-    <NavigationProperty Name="Наряд_Сотрудник" Relationship="db_mitraModel.FK_Наряд_Сотрудник_Сотрудник1" FromRole="Сотрудник" ToRole="Наряд_Сотрудник" />
   </EntityType>
   <EntityType Name="Тип_оборудования">
     <Key>
@@ -92,8 +92,8 @@
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Оборудование" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Тип_оборудования" ToRole="Оборудование" />
     <Property Name="Периодичность" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Оборудование" Relationship="Self.FK_Оборудование_Тип_оборудования" FromRole="Тип_оборудования" ToRole="Оборудование" />
   </EntityType>
   <EntityType Name="Шаблон">
     <Key>
@@ -121,7 +121,7 @@
       <PropertyRef Name="Логин" />
       <PropertyRef Name="Пароль" />
     </Key>
-    <Property Name="ID_Сотрудника" Type="Int32" Nullable="false" />
+    <Property Name="ID_Сотрудника" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Сотрудник" Relationship="Self.FK_Учётная_запись_Сотрудник" FromRole="Учётная_запись" ToRole="Сотрудник" />
@@ -174,6 +174,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Наряд_Сотрудник_Наряд1">
+    <End Role="Наряд" Type="Self.Наряд" Multiplicity="1" />
+    <End Role="Наряд_Сотрудник" Type="Self.Наряд_Сотрудник" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Наряд">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="Наряд_Сотрудник">
+        <PropertyRef Name="ID_Наряда" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Наряд_Шаблон">
     <End Role="Шаблон" Type="Self.Шаблон" Multiplicity="1" />
     <End Role="Наряд" Type="Self.Наряд" Multiplicity="*" />
@@ -195,6 +207,18 @@
       </Principal>
       <Dependent Role="Отчёт">
         <PropertyRef Name="Номер_Наряда" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Наряд_Сотрудник_Сотрудник1">
+    <End Role="Сотрудник" Type="Self.Сотрудник" Multiplicity="1" />
+    <End Role="Наряд_Сотрудник" Type="Self.Наряд_Сотрудник" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Сотрудник">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Наряд_Сотрудник">
+        <PropertyRef Name="ID_Сотрудника" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -234,11 +258,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="db_mitraEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+  <EntityContainer Name="db_mitraEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Должность" EntityType="Self.Должность" />
     <EntitySet Name="Материал" EntityType="Self.Материал" />
     <EntitySet Name="Наряд" EntityType="Self.Наряд" />
+    <EntitySet Name="Наряд_Сотрудник" EntityType="Self.Наряд_Сотрудник" />
     <EntitySet Name="Оборудование" EntityType="Self.Оборудование" />
     <EntitySet Name="Отчёт" EntityType="Self.Отчёт" />
     <EntitySet Name="Состояние" EntityType="Self.Состояние" />
@@ -263,6 +287,10 @@
       <End Role="Состояние" EntitySet="Состояние" />
       <End Role="Наряд" EntitySet="Наряд" />
     </AssociationSet>
+    <AssociationSet Name="FK_Наряд_Сотрудник_Наряд1" Association="Self.FK_Наряд_Сотрудник_Наряд1">
+      <End Role="Наряд" EntitySet="Наряд" />
+      <End Role="Наряд_Сотрудник" EntitySet="Наряд_Сотрудник" />
+    </AssociationSet>
     <AssociationSet Name="FK_Наряд_Шаблон" Association="Self.FK_Наряд_Шаблон">
       <End Role="Шаблон" EntitySet="Шаблон" />
       <End Role="Наряд" EntitySet="Наряд" />
@@ -270,6 +298,10 @@
     <AssociationSet Name="FK_Отчёт_Наряд" Association="Self.FK_Отчёт_Наряд">
       <End Role="Наряд" EntitySet="Наряд" />
       <End Role="Отчёт" EntitySet="Отчёт" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Наряд_Сотрудник_Сотрудник1" Association="Self.FK_Наряд_Сотрудник_Сотрудник1">
+      <End Role="Сотрудник" EntitySet="Сотрудник" />
+      <End Role="Наряд_Сотрудник" EntitySet="Наряд_Сотрудник" />
     </AssociationSet>
     <AssociationSet Name="FK_Оборудование_Тип_оборудования" Association="Self.FK_Оборудование_Тип_оборудования">
       <End Role="Тип_оборудования" EntitySet="Тип_оборудования" />
@@ -283,96 +315,12 @@
       <End Role="Сотрудник" EntitySet="Сотрудник" />
       <End Role="Учётная_запись" EntitySet="Учётная_запись" />
     </AssociationSet>
-    <FunctionImport Name="sp_alterdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_creatediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_dropdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(db_mitraModel.sp_helpdiagramdefinition_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(db_mitraModel.sp_helpdiagrams_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_renamediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="new_diagramname" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_upgraddiagrams" />
     <FunctionImport Name="GetEmployees" ReturnType="Collection(db_mitraModel.GetEmployees_Result)">
       <Parameter Name="OrderId" Mode="In" Type="Int32" />
     </FunctionImport>
-    <EntitySet Name="Наряд_Сотрудник" EntityType="db_mitraModel.Наряд_Сотрудник" />
-    <AssociationSet Name="FK_Наряд_Сотрудник_Наряд1" Association="db_mitraModel.FK_Наряд_Сотрудник_Наряд1">
-      <End Role="Наряд" EntitySet="Наряд" />
-      <End Role="Наряд_Сотрудник" EntitySet="Наряд_Сотрудник" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Наряд_Сотрудник_Сотрудник1" Association="db_mitraModel.FK_Наряд_Сотрудник_Сотрудник1">
-      <End Role="Сотрудник" EntitySet="Сотрудник" />
-      <End Role="Наряд_Сотрудник" EntitySet="Наряд_Сотрудник" />
-    </AssociationSet>
   </EntityContainer>
-  <ComplexType Name="sp_helpdiagramdefinition_Result">
-    <Property Type="Int32" Name="version" Nullable="true" />
-    <Property Type="Binary" Name="definition" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagrams_Result">
-    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="ID" Nullable="false" />
-    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="OwnerID" Nullable="false" />
-  </ComplexType>
   <ComplexType Name="GetEmployees_Result">
     <Property Type="Int32" Name="ID_Сотрудника" Nullable="false" />
     <Property Type="String" Name="ФИО" Nullable="false" MaxLength="50" />
   </ComplexType>
-  <EntityType Name="Наряд_Сотрудник">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ID_Наряда" Type="Int32" Nullable="false" />
-    <Property Name="ID_Сотрудника" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Наряд" Relationship="db_mitraModel.FK_Наряд_Сотрудник_Наряд1" FromRole="Наряд_Сотрудник" ToRole="Наряд" />
-    <NavigationProperty Name="Сотрудник" Relationship="db_mitraModel.FK_Наряд_Сотрудник_Сотрудник1" FromRole="Наряд_Сотрудник" ToRole="Сотрудник" />
-  </EntityType>
-  <Association Name="FK_Наряд_Сотрудник_Наряд1">
-    <End Type="db_mitraModel.Наряд" Role="Наряд" Multiplicity="1" />
-    <End Type="db_mitraModel.Наряд_Сотрудник" Role="Наряд_Сотрудник" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Наряд">
-        <PropertyRef Name="Номер" />
-      </Principal>
-      <Dependent Role="Наряд_Сотрудник">
-        <PropertyRef Name="ID_Наряда" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Наряд_Сотрудник_Сотрудник1">
-    <End Type="db_mitraModel.Сотрудник" Role="Сотрудник" Multiplicity="1" />
-    <End Type="db_mitraModel.Наряд_Сотрудник" Role="Наряд_Сотрудник" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Сотрудник">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Наряд_Сотрудник">
-        <PropertyRef Name="ID_Сотрудника" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>
