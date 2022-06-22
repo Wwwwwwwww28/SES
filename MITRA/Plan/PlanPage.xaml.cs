@@ -19,13 +19,13 @@ namespace MITRA.Plan
     /// Логика взаимодействия для PlanPage.xaml
     /// </summary>
     /// 
-    
+
     class test
     {
         public string env { get; set; }
         public DateTime currentDate;
-       
-        
+
+
     }
     public partial class PlanPage : Page
     {
@@ -61,89 +61,100 @@ namespace MITRA.Plan
                 textBlock.Margin = new Thickness(5);
                 timeLine.Children.Add(textBlock);
                 Grid.SetColumn(textBlock, 0);
-                Grid.SetRow(textBlock, i+1);
+                Grid.SetRow(textBlock, i + 1);
             }
+            //пошел костыль
             DateTime date = DateTime.Now.Date;
-           
+
             for (int i = 0; i < ls.Count; i++)
             {
+
                 for (int j = 1; j < 32; j++)
                 {
+
                     if (getDates(ls[i]).Contains(date.Date))
                     {
+
                         TextBox textBox = new TextBox();
                         textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
                         textBox.VerticalAlignment = VerticalAlignment.Stretch;
                         textBox.Margin = new Thickness(5);
                         try
                         {
-                            if(ls[i].Наряд.First().Дата.Date == date.Date)
+
+                            if (ls[i].Наряд.First().Дата.Date == date.Date)
                             {
-                                if(ls[i].Наряд.First().ID_Шаблона == 2)
-                                textBox.Background = Brushes.Blue;
-                                if(ls[i].Наряд.First().ID_Шаблона == 3)
-                                textBox.Background = Brushes.Blue;
+                                if (ls[i].Наряд.First().ID_Шаблона == 2)
+                                    textBox.Background = Brushes.Blue;
+                                if (ls[i].Наряд.First().ID_Шаблона == 3)
+                                    textBox.Background = Brushes.Red;
+
                             }
                             else
                             {
-                                textBox.Background = Brushes.Gray;
+                                textBox.Background = Brushes.Green;
                             }
                         }
                         catch
                         {
-                            textBox.Background = Brushes.Gray;
+                            textBox.Background = Brushes.Green;
                         }
-                        
+
                         timeLine.Children.Add(textBox);
-                        Grid.SetRow(textBox, i+1);
+                        Grid.SetRow(textBox, i + 1);
                         Grid.SetColumn(textBox, j);
-                        
+                        Console.WriteLine("true");
+
                     }
                     else { }
 
+                    Console.WriteLine("false");
                     date = date.AddDays(1);
-                   
+
                 }
                 date = DateTime.Now.Date;
-             //   }
-                 //   else { }
+
             }
-            
+
 
         }
         private List<DateTime> getDates(Оборудование i)
         {
-            List<DateTime> datesWithPeriod2 = new List<DateTime>();
             List<DateTime> datesWithPeriod = new List<DateTime>();
             DateTime d = i.Data;
             int period = i.Тип_оборудования.Периодичность;
-            for (int j = 0; j < 365/period; j++)
+            for (int j = 0; j < 365 / period; j++)
             {
                 d = d.AddDays(period);
                 datesWithPeriod.Add(d.Date);
             }
             try
             {
-               // datesWithPeriod.Add(i.Наряд.First().Дата);
+                datesWithPeriod.Add(i.Наряд.First().Дата);
             }
             catch { }
+
+
             return datesWithPeriod;
-            // var filteredData = SecretaryEntities5.GetContext().Employees.Local.ToList().Where(x => x.ID_Employee == db.ID);
-            /* Наряд n = new Наряд();
-             for (int l = 0; l < datesWithPeriod.Count(); l++)
-             {
-                 var fd = db_mitraEntities.GetContext().Наряд.Local.ToList().Where(x => x.Дата == d);
-                 if (datesWithPeriod[l] == d)
-                 {
-                     datesWithPeriod2.Add(d.Date);
-                 }
-                 d = d.AddDays(1);*/
-
-
-            //      if(d == n.Номер)
-            //       datesWithPeriod.Add()
         }
-            
-        
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnDel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void планDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
     }
 }
