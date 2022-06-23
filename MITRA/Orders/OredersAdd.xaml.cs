@@ -1,4 +1,5 @@
-﻿using MITRA.Orders;
+﻿using MITRA.Dialogs;
+using MITRA.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -268,6 +269,7 @@ namespace MITRA.Oreders
                 {
                     db_mitraEntities1.GetContext().Database.ExecuteSqlCommand("UPDATE Наряд SET ID_Состояния = 3 WHERE Номер = " + order.Номер);
                     db_mitraEntities1.GetContext().SaveChanges();
+                    Used_Materials dialog = new Used_Materials();
                     App.ParentWindowRef.ParentFrame.Navigate(new Otchet(acc, order));
                 }
             }

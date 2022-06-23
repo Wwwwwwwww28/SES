@@ -9,11 +9,11 @@
       Title="Otchet">
     <Grid  Background="LightGray" >
         <Grid.RowDefinitions >
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -21,25 +21,63 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="Наряд" Height="20" Width="100" TextAlignment="Center" />
 
-        <TextBlock Grid.Column="1" Grid.Row="0" Height="30" x:Name="numOrd"  Margin="0,0,10,0"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Height="30" x:Name="numOrd"  Margin="0,0,10,0" TextAlignment="Left" VerticalAlignment="Center"/>
         <Grid Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan ="2">
-            <DataGrid HorizontalAlignment="Stretch" x:Name="lbmat" Grid.Column="0" Margin="10">
-                <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="nameColumn" IsReadOnly="True" Binding="{Binding Название}" Header="Материал" Width="50"/>
-                    <DataGridTextColumn x:Name="coutColumn" IsReadOnly="False" Header="Кол-во" Width="*"  />
-                </DataGrid.Columns>
-            </DataGrid>
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.8*"/>
+
+            </Grid.RowDefinitions>
+
+            <StackPanel 
+                Orientation="Horizontal"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+                <ComboBox
+                    x:Name="cmb_materials"
+                    Width="200"
+                    Height="30"
+                    DisplayMemberPath="Название"/>
+
+                <TextBox
+                    x:Name="txt_wasted"
+                    Width="100"
+                    Height="30"
+                    Margin="15 0 15 0"/>
+
+                <Button
+                    x:Name="btn_add_material"
+                    Content="+"
+                    Width="30"
+                    Height="30"
+                    Click="btn_add_material_Click"/>
+
+            </StackPanel>
+
+            <ListView
+                x:Name="lv_used_materials"
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Width="300"
+                Height="65"/>
+
+
         </Grid>
         <Grid Grid.Row="3" Grid.ColumnSpan ="2" Margin="10">
-            <RichTextBox x:Name="discTextBox" Grid.Row="5" ></RichTextBox>
+            <TextBox x:Name="discTextBox" Grid.Row="5" ></TextBox>
         </Grid>
         <Grid Grid.Row="6" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnTrue" VerticalAlignment="Center" Content="Выполнено" Grid.Row="6" Height="30" Width="150" Grid.Column="0"/>
-            <Button x:Name="btnFalse" VerticalAlignment="Center" Content="Не выполнено" Grid.Row="6" Height="30" Width="150" Grid.Column="1" />
+            <Button x:Name="btnTrue" VerticalAlignment="Center" Content="Выполнено" Grid.Row="6" Height="30" Width="150" Grid.Column="0" Click="btnTrue_Click"/>
+            <Button x:Name="btnFalse" VerticalAlignment="Center" Content="Не выполнено" Grid.Row="6" Height="30" Width="150" Grid.Column="1" Click="btnFalse_Click"/>
         </Grid>
     </Grid>
 </Page>
