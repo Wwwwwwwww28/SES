@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MITRA.Oreders;
+using MITRA.Plan.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -69,6 +71,8 @@ namespace MITRA.Plan
             }
             DateTime date = DateTime.Now.Date;
 
+           
+
             for (int i = 0; i < ls.Count; i++)
             {
 
@@ -78,11 +82,14 @@ namespace MITRA.Plan
                     if (getDates(ls[i]).Contains(date.Date))
                     {
 
-                        TextBox textBox = new TextBox();
+                        Button textBox = new Button();
                         textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
                         textBox.VerticalAlignment = VerticalAlignment.Stretch;
                         textBox.Margin = new Thickness(5);
-                        textBox.IsEnabled = false;
+                        textBox.IsEnabled = true;
+                        Chain chain = new Chain();
+
+                        textBox.Click += TextBox_Click;
                         try
                         {
 
@@ -92,27 +99,34 @@ namespace MITRA.Plan
                                     textBox.Background = Brushes.SkyBlue;
                                 if (ls[i].Наряд.First().ID_Шаблона == 3)
                                     textBox.Background = Brushes.SkyBlue;
+                                
+                                chain.order = ls[i].Наряд.First();
 
                             }
                             else
                             {
                                 textBox.Background = Brushes.Gray;
+                                chain.date = date.Date;
+                                chain.Оборудование = ls[i];
                             }
                         }
                         catch
                         {
                             textBox.Background = Brushes.Gray;
+                            chain.date = date.Date;
+                            chain.Оборудование = ls[i];
+                            
                         }
-
+                        textBox.Tag = chain;
                         timeLine.Children.Add(textBox);
                         Grid.SetRow(textBox, i + 1);
                         Grid.SetColumn(textBox, j);
-                        Console.WriteLine("true");
+                        
 
                     }
                     else { }
 
-                    Console.WriteLine("false");
+                   
                     date = date.AddDays(1);
 
                 }
@@ -122,6 +136,18 @@ namespace MITRA.Plan
 
 
         }
+
+        private void TextBox_Click(object sender, RoutedEventArgs e)
+        {
+            App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd(((Button)sender).Tag as Chain));
+        }
+
+        private void TextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+           
+            
+        }
+
         private List<DateTime> getDates(Оборудование i)
         {
             List<DateTime> datesWithPeriod = new List<DateTime>();

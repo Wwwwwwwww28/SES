@@ -125,6 +125,7 @@
     <Compile Include="Orders\Otchet.xaml.cs">
       <DependentUpon>Otchet.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plan\Model\Chain.cs" />
     <Compile Include="Plan\PlanPage.xaml.cs">
       <DependentUpon>PlanPage.xaml</DependentUpon>
     </Compile>

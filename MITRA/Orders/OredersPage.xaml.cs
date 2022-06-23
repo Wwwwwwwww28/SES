@@ -53,13 +53,15 @@ namespace MITRA.Oreders
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd(null, acc));
+            Наряд tt = new Наряд();
+            tt = null;
+            App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd(tt));
         }
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
             if (нарядDataGrid.SelectedItem != null)
             {
-                App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd((нарядDataGrid.SelectedItem as Наряд), acc));
+                App.ParentWindowRef.ParentFrame.Navigate(new OredersAdd((нарядDataGrid.SelectedItem as Наряд)));
             }
             else
             {

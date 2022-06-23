@@ -1,5 +1,6 @@
 ﻿using MITRA.Dialogs;
 using MITRA.Orders;
+using MITRA.Plan.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace MITRA.Oreders
         private Оборудование machin = new Оборудование();
         Наряд order;
 
-        public OredersAdd(Наряд order, Учётная_запись acc)
+        public OredersAdd(Наряд order)
         {
             InitializeComponent();
             this.order = order;
@@ -48,6 +49,29 @@ namespace MITRA.Oreders
                 InitializeUI();
                 s = 1;
 
+            }
+        }
+        public OredersAdd(Chain chain)
+        {
+            InitializeComponent();
+            this.order = order;
+            acc = acc;
+            DataContext = machin;
+            cmbType.ItemsSource = db_mitraEntities1.GetContext().Шаблон.ToList();
+            cmbEnv.ItemsSource = db_mitraEntities1.GetContext().Оборудование.ToList();
+            lbEmpl.ItemsSource = db_mitraEntities1.GetContext().Сотрудник.ToList();
+            addsEmpls = new List<Сотрудник>();
+            if (chain.order != null)
+            {
+                cmbEnv.SelectedItem = chain.order.Оборудование;
+                cmbType.SelectedItem = chain.order.Шаблон;
+                calendar.SelectedDate = chain.order.Дата.Date;
+            }
+            if(chain.Оборудование != null)
+            {
+                cmbEnv.SelectedItem = chain.Оборудование;
+                cmbType.SelectedItem = db_mitraEntities1.GetContext().Шаблон.Where(x=> x.Название == "ППР");
+                calendar.SelectedDate = chain.date.Date;
             }
 
         }
