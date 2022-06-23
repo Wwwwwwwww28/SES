@@ -4,31 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b2af5a406a3e4656a7c1c0687b88cee6" Name="Diagram1" ZoomLevel="82">
-        <EntityTypeShape EntityType="db_mitraModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Должность" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Материал" Width="1.5" PointX="7.5" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Наряд" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Оборудование" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Отчёт" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Состояние" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Сотрудник" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Тип_оборудования" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Шаблон" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Расход" Width="1.5" PointX="9.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_mitraModel.Учётная_запись" Width="1.5" PointX="9.75" PointY="7.375" IsExpanded="true" />
+      <Diagram DiagramId="7b0c18c2b7814d458bbf3948ca706ee1" Name="Diagram1">
+        <EntityTypeShape EntityType="db_mitraModel.Должность" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Материал" Width="1.5" PointX="7.5" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Наряд" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Наряд_Сотрудник" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Оборудование" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Отчёт" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Состояние" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Сотрудник" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Тип_оборудования" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Шаблон" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Расход" Width="1.5" PointX="9.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_mitraModel.Учётная_запись" Width="1.5" PointX="7.5" PointY="12.875" IsExpanded="true" />
         <AssociationConnector Association="db_mitraModel.FK_Сотрудник_Должность" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Расход_Материал" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Наряд_Оборудование" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Наряд_Состояние" ManuallyRouted="false" />
+        <AssociationConnector Association="db_mitraModel.FK_Наряд_Сотрудник_Наряд1" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Наряд_Шаблон" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Отчёт_Наряд" ManuallyRouted="false" />
+        <AssociationConnector Association="db_mitraModel.FK_Наряд_Сотрудник_Сотрудник1" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Оборудование_Тип_оборудования" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Расход_Отчёт" ManuallyRouted="false" />
         <AssociationConnector Association="db_mitraModel.FK_Учётная_запись_Сотрудник" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="db_mitraModel.Наряд_Сотрудник" Width="1.5" PointX="9.75" PointY="0.75" />
-        <AssociationConnector Association="db_mitraModel.FK_Наряд_Сотрудник_Наряд1" />
-        <AssociationConnector Association="db_mitraModel.FK_Наряд_Сотрудник_Сотрудник1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

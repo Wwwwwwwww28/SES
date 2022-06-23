@@ -48,6 +48,8 @@ namespace MITRA.Main
                     break;
                 case 2:
                         narad.Visibility = Visibility.Visible;
+                        plan.Visibility = Visibility.Visible;
+                        material.Visibility = Visibility.Visible;
                     break;
                 case 3:
                         material.Visibility = Visibility.Visible;
@@ -55,6 +57,7 @@ namespace MITRA.Main
                 case 4:
                         plan.Visibility = Visibility.Visible;
                         oborudovanie.Visibility = Visibility.Visible;
+                        material.Visibility = Visibility.Visible;
                     break;
                 case 5:
                     sotrudniki.Visibility = Visibility.Visible;
@@ -65,22 +68,27 @@ namespace MITRA.Main
         private void OrderBC(object sender, RoutedEventArgs e)
         {
             ((MainWindow)parent).ParentFrame.Navigate(new OredersPage(account));
+            parent.BtnHome.Visibility = Visibility.Visible;
         }
         private void PlanBC(object sender, RoutedEventArgs e)
         {
             ((MainWindow)parent).ParentFrame.Navigate(new Plan.PlanPage());
+            parent.BtnHome.Visibility = Visibility.Visible;
         }
         private void MachinewBC(object sender, RoutedEventArgs e)
         {
             ((MainWindow)parent).ParentFrame.Navigate(new Machin.MachinePage(account));
+            parent.BtnHome.Visibility = Visibility.Visible;
         }
         private void MaterialBC(object sender, RoutedEventArgs e)
         {
             ((MainWindow)parent).ParentFrame.Navigate(new Equip.EquipPage(account));
+            parent.BtnHome.Visibility = Visibility.Visible;
         }
         private void EmployeesBC(object sender, RoutedEventArgs e)
         {
             ((MainWindow)parent).ParentFrame.Navigate(new Empl.EmplPage(account));
+            parent.BtnHome.Visibility = Visibility.Visible;
         }
     }
 }

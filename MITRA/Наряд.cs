@@ -17,8 +17,8 @@ namespace MITRA
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Наряд()
         {
-            this.Отчёт = new HashSet<Отчёт>();
             this.Наряд_Сотрудник = new HashSet<Наряд_Сотрудник>();
+            this.Отчёт = new HashSet<Отчёт>();
         }
     
         public int Номер { get; set; }
@@ -27,14 +27,14 @@ namespace MITRA
         public Nullable<int> ID_Исполнителя { get; set; }
         public int ID_Состояния { get; set; }
         public int ID_Шаблона { get; set; }
-        public byte[] Описание { get; set; }
+        public string Описание { get; set; }
     
         public virtual Оборудование Оборудование { get; set; }
         public virtual Состояние Состояние { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Наряд_Сотрудник> Наряд_Сотрудник { get; set; }
         public virtual Шаблон Шаблон { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Отчёт> Отчёт { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Наряд_Сотрудник> Наряд_Сотрудник { get; set; }
     }
 }

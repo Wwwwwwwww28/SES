@@ -27,24 +27,24 @@ namespace MITRA.Empl
             InitializeComponent();
             acc = account;
             DataContext = equip;
-            ComboType.ItemsSource = db_mitraEntities.GetContext().Должность.ToList();
+            ComboType.ItemsSource = db_mitraEntities1.GetContext().Должность.ToList();
         }
         private void ComboPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var db = ComboType.SelectedItem as Должность;
-            var filteredData = db_mitraEntities.GetContext().Сотрудник.Local.ToList().Where(x => x.ID_Должности == db.ID);
+            var filteredData = db_mitraEntities1.GetContext().Сотрудник.Local.ToList().Where(x => x.ID_Должности == db.ID);
             сотрудникDataGrid.ItemsSource = filteredData.Count() > 0 ? filteredData : filteredData.ToArray();
         }
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
             string belfast = Search.Text;
-            var biba = db_mitraEntities.GetContext().Сотрудник.Where(x => x.ФИО.Contains(belfast)).ToList();
+            var biba = db_mitraEntities1.GetContext().Сотрудник.Where(x => x.ФИО.Contains(belfast)).ToList();
             сотрудникDataGrid.ItemsSource = biba;
         }
         private void BtnCansel_Click(object sender, RoutedEventArgs e)
         {
             Search.Text = "";
-            сотрудникDataGrid.ItemsSource = db_mitraEntities.GetContext().Сотрудник.ToList();
+            сотрудникDataGrid.ItemsSource = db_mitraEntities1.GetContext().Сотрудник.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -72,12 +72,12 @@ namespace MITRA.Empl
                 {
                     try
                     {
-                        db_mitraEntities.GetContext().Сотрудник.RemoveRange(WorkersForRemoving);
-                        db_mitraEntities.GetContext().SaveChanges();
+                        db_mitraEntities1.GetContext().Сотрудник.RemoveRange(WorkersForRemoving);
+                        db_mitraEntities1.GetContext().SaveChanges();
                         MessageBox.Show("Данные удалены!");
 
 
-                        сотрудникDataGrid.ItemsSource = db_mitraEntities.GetContext().Сотрудник.ToList();
+                        сотрудникDataGrid.ItemsSource = db_mitraEntities1.GetContext().Сотрудник.ToList();
                     }
                     catch (Exception ex)
                     {
@@ -95,8 +95,8 @@ namespace MITRA.Empl
         {
             if (Visibility == Visibility.Visible)
             {
-                db_mitraEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-                сотрудникDataGrid.ItemsSource = db_mitraEntities.GetContext().Сотрудник.ToList();
+                db_mitraEntities1.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                сотрудникDataGrid.ItemsSource = db_mitraEntities1.GetContext().Сотрудник.ToList();
             }
         }
     }

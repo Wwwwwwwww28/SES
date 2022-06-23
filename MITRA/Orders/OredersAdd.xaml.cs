@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MITRA.Orders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,35 +22,65 @@ namespace MITRA.Oreders
     public partial class OredersAdd : Page
     {
         int s = 0;
-        List<Сотрудник> addsEmpls; 
+        int oldcount;
+        List<Сотрудник> addsEmpls;
+        Учётная_запись acc;
 
         private Оборудование machin = new Оборудование();
-        private Наряд order;
+        Наряд order;
 
-        public OredersAdd(Наряд order)
+        public OredersAdd(Наряд order, Учётная_запись acc)
         {
             InitializeComponent();
             this.order = order;
+            acc = acc;
             DataContext = machin;
-            cmbType.ItemsSource = db_mitraEntities.GetContext().Шаблон.ToList();
-            cmbEnv.ItemsSource = db_mitraEntities.GetContext().Оборудование.ToList();
-            lbEmpl.ItemsSource = db_mitraEntities.GetContext().Сотрудник.ToList();
+            cmbType.ItemsSource = db_mitraEntities1.GetContext().Шаблон.ToList();
+            cmbEnv.ItemsSource = db_mitraEntities1.GetContext().Оборудование.ToList();
+            lbEmpl.ItemsSource = db_mitraEntities1.GetContext().Сотрудник.ToList();
             addsEmpls = new List<Сотрудник>();
             if (order == null)
             { s = 0; }
             else
             {
-                s = 1;
+                StatePart();
                 InitializeUI();
+                s = 1;
+
             }
-            
+
         }
 
         private void InitializeUI()
         {
-            Шаблон x = order.Шаблон;
-            cmbType.SelectedItem = x;
+            cmbType.SelectedItem = order.Шаблон;
             cmbEnv.SelectedItem = order.Оборудование;
+            btnAdd.Content = "Редактировать";
+            Grid.SetColumnSpan(btnAdd, 1);
+            btnOtch.Visibility = Visibility.Visible;
+            calendar.SelectedDate = order.Дата;
+            discTextBox.Text = order.Описание;
+            addsEmpls = db_mitraEntities1.GetContext().Database.SqlQuery<Сотрудник>("SELECT * FROM Сотрудник INNER JOIN Наряд_Сотрудник ON Сотрудник.ID=Наряд_Сотрудник.ID_Сотрудника WHERE Наряд_Сотрудник.ID_Наряда=" + order.Номер).ToList();
+            lbEmp2.ItemsSource = db_mitraEntities1.GetContext().Database.SqlQuery<Сотрудник>("SELECT * FROM Сотрудник INNER JOIN Наряд_Сотрудник ON Сотрудник.ID=Наряд_Сотрудник.ID_Сотрудника WHERE Наряд_Сотрудник.ID_Наряда=" + order.Номер).ToList();
+            int oldcount = addsEmpls.Count;
+        }
+
+        private void StatePart()
+        {
+            try { 
+                int state = order.Состояние.ID;
+                Console.WriteLine(order.Состояние);
+                if (state == 1)
+                {
+                    btnOtch.Content = "Начать";
+                }
+                if (state == 2)
+                {
+                    btnOtch.Content = "Завершить";
+                }
+            }
+            catch
+            { }
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
@@ -63,10 +94,10 @@ namespace MITRA.Oreders
                 return;
             }
             if (machin.ID_ТипОборудования == 0)
-                db_mitraEntities.GetContext().Оборудование.Add(machin);
+                db_mitraEntities1.GetContext().Оборудование.Add(machin);
             try
             {
-                db_mitraEntities.GetContext().SaveChanges();
+                db_mitraEntities1.GetContext().SaveChanges();
                 if (s == 1)
                 {
                     MessageBox.Show("Изменение успешно!");
@@ -95,26 +126,96 @@ namespace MITRA.Oreders
 
         private void btnAdd_Click_1(object sender, RoutedEventArgs e)
         {
+            /* int count = addsEmpls.Count;
+             try
+             {
+                 // Наряд order = new Наряд();
+
+                 //order.Дата = System.DateTime.Parse(calendar.DisplayDate.ToShortDateString());
+                 //  order.Дата = DateTime.Parse(calendar.SelectedDate.ToString());
+                 order.Дата = (DateTime)calendar.SelectedDate;
+                 order.ID_Оборудования = (cmbEnv.SelectedItem as Оборудование).ID;
+                 order.ID_Шаблона = (cmbType.SelectedItem as Шаблон).ID;
+                 order.Описание = (discTextBox.Text);
+                 order.ID_Исполнителя = 1;
+
+                 //db_mitraEntities1.GetContext().SaveChanges();
+                 if (order.Номер == 0)
+                 {
+                     order.ID_Состояния = 1;
+                     db_mitraEntities1.GetContext().Наряд.Add(order);
+                 }
+                 db_mitraEntities1.GetContext().Database.ExecuteSqlCommand("DELETE FROM Наряд_Сотрудник WHERE ID_Наряда = " + order.Номер);
+                 for (int i = 0; i < count; i++)
+                 {
+                     db_mitraEntities1.GetContext().Database.ExecuteSqlCommand("INSERT INTO Наряд_Сотрудник (ID_Наряда, ID_Сотрудника) VALUES (" + order.Номер + ", " + addsEmpls[i].ID + ")");
+                 }
+                 //     db_mitraEntities1.GetContext().Наряд.Add(order);
+                 db_mitraEntities1.GetContext().SaveChanges();
+                 MessageBox.Show("Успешно!");
+                 App.ParentWindowRef.ParentFrame.Navigate(new OredersPage(acc));
+             }
+             catch
+             {
+                 Наряд order = new Наряд();
+                 try
+                 {
+                     // Наряд order = new Наряд();
+
+                     //order.Дата = System.DateTime.Parse(calendar.DisplayDate.ToShortDateString());
+                     //  order.Дата = DateTime.Parse(calendar.SelectedDate.ToString());
+                     order.Дата = (DateTime)calendar.SelectedDate;
+                     order.ID_Оборудования = (cmbEnv.SelectedItem as Оборудование).ID;
+                     order.ID_Шаблона = (cmbType.SelectedItem as Шаблон).ID;
+                     order.Описание = (discTextBox.Text);
+                     order.ID_Исполнителя = 1;
+
+                     //db_mitraEntities1.GetContext().SaveChanges();
+                     if (order.Номер == 0)
+                     {
+                         order.ID_Состояния = 1;
+                         db_mitraEntities1.GetContext().Наряд.Add(order);
+                         for (int i = 0; i < addsEmpls.Count; i++)
+                         {
+                             db_mitraEntities1.GetContext().Database.ExecuteSqlCommand("INSERT INTO Наряд_Сотрудник (ID_Наряда, ID_Сотрудника) VALUES (" + order.Номер + ", " + addsEmpls[i].ID + ")");
+                         }
+                     }
+                     //     db_mitraEntities1.GetContext().Наряд.Add(order);
+                     db_mitraEntities1.GetContext().SaveChanges();
+                     MessageBox.Show("Успешно!");
+                     App.ParentWindowRef.ParentFrame.Navigate(new OredersPage(acc));
+                 }
+                 catch
+                 {
+                     MessageBox.Show("Ошибка!");
+                 }
+             }*/
             try
             {
                 Наряд order = new Наряд();
-                order.Дата = DateTime.Parse(calendar.DisplayDate.ToShortDateString());
-             //  order.Дата = DateTime.Parse(calendar.SelectedDate.ToString());
+
+                /*         if (order == null)
+                         {
+                             Наряд order = new Наряд();
+                         }*/
+                order.Дата = (DateTime)calendar.SelectedDate;
                 order.ID_Оборудования = (cmbEnv.SelectedItem as Оборудование).ID;
                 order.ID_Шаблона = (cmbType.SelectedItem as Шаблон).ID;
+                order.Описание = (discTextBox.Text);
                 order.ID_Состояния = 1;
                 order.ID_Исполнителя = 1;
 
-                db_mitraEntities.GetContext().Наряд.Add(order);
-                db_mitraEntities.GetContext().SaveChanges();
+                db_mitraEntities1.GetContext().Наряд.Add(order);
+                db_mitraEntities1.GetContext().SaveChanges();
                 for (int i = 0; i < addsEmpls.Count; i++)
                 {
-                    db_mitraEntities.GetContext().Database.ExecuteSqlCommand("INSERT INTO Наряд_Сотрудник (ID_Наряда, ID_Сотрудника) VALUES (" + order.Номер + ", " + addsEmpls[i].ID + ")");
+                    db_mitraEntities1.GetContext().Database.ExecuteSqlCommand("INSERT INTO Наряд_Сотрудник (ID_Наряда, ID_Сотрудника) VALUES (" + order.Номер + ", " + addsEmpls[i].ID + ")");
                 }
                 MessageBox.Show("Успешно!");
+                App.ParentWindowRef.ParentFrame.Navigate(new OredersPage(acc));
 
             }
-            catch(Exception x)
+            catch
             {
                 MessageBox.Show("Ошибка!");
             }
@@ -143,7 +244,35 @@ namespace MITRA.Oreders
         {
             var empl = lbEmp2.SelectedItem as Сотрудник;
             addsEmpls.Remove(empl);
+
             refreshAddsEmlp();
+        }
+
+        private void btnOtch_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (order == null)
+                {
+                    Наряд order = new Наряд();
+                }
+               // Наряд order = new Наряд();
+                Console.WriteLine(order.Состояние.ID);
+                if (order.Состояние.ID == 1)
+                {
+                    db_mitraEntities1.GetContext().Database.ExecuteSqlCommand("UPDATE Наряд SET ID_Состояния = 2 WHERE Номер = "+ order.Номер);
+                    db_mitraEntities1.GetContext().SaveChanges();
+                    App.ParentWindowRef.ParentFrame.Navigate(new OredersPage(acc));
+                }
+                else
+                {
+                    db_mitraEntities1.GetContext().Database.ExecuteSqlCommand("UPDATE Наряд SET ID_Состояния = 3 WHERE Номер = " + order.Номер);
+                    db_mitraEntities1.GetContext().SaveChanges();
+                    App.ParentWindowRef.ParentFrame.Navigate(new Otchet(acc, order));
+                }
+            }
+            catch
+            { }
         }
     }
 }

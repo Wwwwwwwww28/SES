@@ -19,13 +19,13 @@ namespace MITRA.Plan
     /// Логика взаимодействия для PlanPage.xaml
     /// </summary>
     /// 
-    
+
     class test
     {
         public string env { get; set; }
         public DateTime currentDate;
-       
-        
+
+
     }
     public partial class PlanPage : Page
     {
@@ -43,6 +43,7 @@ namespace MITRA.Plan
                 textBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
                 textBlock.Margin = new Thickness(5);
+                textBlock.IsEnabled = false;
                 textBlock.Text = currentTime.ToLongDateString();
                 timeLine.Children.Add(textBlock);
                 Grid.SetColumn(textBlock, i);
@@ -50,7 +51,7 @@ namespace MITRA.Plan
                 currentTime = currentTime.AddDays(1);
             }
             timeLine.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            ls = db_mitraEntities.GetContext().Оборудование.ToList();
+            ls = db_mitraEntities1.GetContext().Оборудование.ToList();
             for (int i = 0; i < ls.Count; i++)
             {
                 timeLine.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -59,17 +60,18 @@ namespace MITRA.Plan
                 textBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
                 textBlock.Margin = new Thickness(5);
+                textBlock.IsEnabled = false;
                 timeLine.Children.Add(textBlock);
                 Grid.SetColumn(textBlock, 0);
-                Grid.SetRow(textBlock, i+1);
+                Grid.SetRow(textBlock, i + 1);
             }
             DateTime date = DateTime.Now.Date;
-           
+
             for (int i = 0; i < ls.Count; i++)
             {
+
                 for (int j = 1; j < 32; j++)
                 {
-
 
                     if (getDates(ls[i]).Contains(date.Date))
                     {
@@ -78,15 +80,16 @@ namespace MITRA.Plan
                         textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
                         textBox.VerticalAlignment = VerticalAlignment.Stretch;
                         textBox.Margin = new Thickness(5);
+                        textBox.IsEnabled = false;
                         try
                         {
-                            
-                            if(ls[i].Наряд.First().Дата.Date == date.Date)
+
+                            if (ls[i].Наряд.First().Дата.Date == date.Date)
                             {
-                                if(ls[i].Наряд.First().ID_Шаблона == 2)
-                                textBox.Background = Brushes.Blue;
-                                if(ls[i].Наряд.First().ID_Шаблона == 3)
-                                textBox.Background = Brushes.Blue;
+                                if (ls[i].Наряд.First().ID_Шаблона == 2)
+                                    textBox.Background = Brushes.SkyBlue;
+                                if (ls[i].Наряд.First().ID_Шаблона == 3)
+                                    textBox.Background = Brushes.SkyBlue;
 
                             }
                             else
@@ -98,57 +101,57 @@ namespace MITRA.Plan
                         {
                             textBox.Background = Brushes.Gray;
                         }
-                        
+
                         timeLine.Children.Add(textBox);
-                        Grid.SetRow(textBox, i+1);
+                        Grid.SetRow(textBox, i + 1);
                         Grid.SetColumn(textBox, j);
-                        
+                        Console.WriteLine("true");
+
                     }
                     else { }
 
+                    Console.WriteLine("false");
                     date = date.AddDays(1);
-                   
+
                 }
                 date = DateTime.Now.Date;
-             //   }
-                 //   else { }
+
             }
-            
+
 
         }
         private List<DateTime> getDates(Оборудование i)
         {
-            List<DateTime> datesWithPeriod2 = new List<DateTime>();
             List<DateTime> datesWithPeriod = new List<DateTime>();
             DateTime d = i.Data;
             int period = i.Тип_оборудования.Периодичность;
-            for (int j = 0; j < 365/period; j++)
+            for (int j = 0; j < 365 / period; j++)
             {
                 d = d.AddDays(period);
                 datesWithPeriod.Add(d.Date);
             }
             try
             {
-               // datesWithPeriod.Add(i.Наряд.First().Дата);
+                datesWithPeriod.Add(i.Наряд.First().Дата);
             }
             catch { }
+
+
             return datesWithPeriod;
-            // var filteredData = SecretaryEntities5.GetContext().Employees.Local.ToList().Where(x => x.ID_Employee == db.ID);
-            /* Наряд n = new Наряд();
-             for (int l = 0; l < datesWithPeriod.Count(); l++)
-             {
-                 var fd = db_mitraEntities.GetContext().Наряд.Local.ToList().Where(x => x.Дата == d);
-                 if (datesWithPeriod[l] == d)
-                 {
-                     datesWithPeriod2.Add(d.Date);
-                 }
-                 d = d.AddDays(1);*/
-
-
-            //      if(d == n.Номер)
-            //       datesWithPeriod.Add()
         }
-            
-        
+
+        private void планDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+        private void edit_pnal_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void timeLine_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("changet");
+        }
     }
 }

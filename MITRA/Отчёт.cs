@@ -23,8 +23,8 @@ namespace MITRA
         public int ID { get; set; }
         public int Номер_Наряда { get; set; }
         public System.DateTime Дата { get; set; }
-        public int Результат { get; set; }
         public string Описание { get; set; }
+        public int Результат { get; set; }
     
         public virtual Наряд Наряд { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

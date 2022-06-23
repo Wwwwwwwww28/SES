@@ -16,15 +16,21 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
         <TextBlock Text="ФИО" Height="30" Width="100" />
         <TextBlock Text="Должность" Grid.Row="1" Height="30" Width="100"/>
 
-        <TextBox  x:Name="txtEmplName" Text="{Binding ФИО}" Grid.Column="1" Height="30" Margin="0,0,10,0" />
-        <ComboBox x:Name="ComboPost" SelectedItem="{Binding Должность}" Grid.Column="1" Grid.Row="1" Height="30" Margin="0,0,10,0" SelectionChanged="ComboPost_SelectionChanged" DisplayMemberPath="Название"/>
+        <TextBox  x:Name="txtEmplName" Text="{Binding ФИО}" Grid.Column="1" Height="30" Margin="0,0,10,0" Grid.ColumnSpan="2" />
+        <ComboBox x:Name="ComboPost" SelectedItem="{Binding Должность}" Grid.Column="1" Grid.Row="1" Height="30" SelectionChanged="ComboPost_SelectionChanged" DisplayMemberPath="Название"/>
+        <Button x:Name="typeadd" Grid.Column="2" Grid.Row="1" Margin="10" Height="30" >
+            <Image Source="/res/wing.png" Width="25" Height="25" >
 
-        <Button Content="Сохранить" Grid.ColumnSpan="2" Grid.Row="9" Grid.Column="0"  Width="200" Height="25" Name="BtnAdd" Click="BtnAdd_Click" />
-        <Grid Panel.ZIndex="-2" Background="Gray" Grid.Row="9" Grid.ColumnSpan="2"/>
+            </Image>
+        </Button>
+
+        <Button Content="Сохранить" Grid.ColumnSpan="3" Grid.Row="9" Grid.Column="0"  Width="200" Height="25" Name="BtnAdd" Click="BtnAdd_Click" />
+        <Grid Panel.ZIndex="-2" Background="Gray" Grid.Row="9" Grid.ColumnSpan="3"/>
 
     </Grid>
 </Page>

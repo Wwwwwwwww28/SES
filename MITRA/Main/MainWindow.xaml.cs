@@ -21,16 +21,12 @@ namespace MITRA
     /// </summary>
     public partial class MainWindow : Window
     {
-        int _form = 0;
-        Учётная_запись account;
+        Учётная_запись account = new Учётная_запись();
         public MainWindow(Учётная_запись account)
         {
             InitializeComponent();
+            BtnHome.Visibility = Visibility.Hidden;
             this.account = account;
-            /*if (form == "1" || form == "2")
-            {
-                _form = 1;
-            }*/
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -53,7 +49,7 @@ namespace MITRA
 
         private void BtnHome_Click(object sender, RoutedEventArgs e)
         {
-           // App.ParentWindowRef.ParentFrame.Navigate(new MainPage(_form));
+            App.ParentWindowRef.ParentFrame.Navigate(new MainPage(this, account));
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)

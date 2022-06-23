@@ -22,11 +22,11 @@
         </DataGrid>
 
         <Grid Panel.ZIndex="-2" Background="Gray" Grid.Column="1" Grid.RowSpan="2">
-            <ComboBox SelectedItem="{Binding Тип_оборудованиея.Название}"  Height="30" x:Name="ComboType"  Margin="0,0,0,249" SelectionChanged="ComboPost_SelectionChanged" DisplayMemberPath="Post1" VerticalAlignment="Bottom"/>
-            <TextBox Background="White" x:Name="Search"    TextChanged="Search_TextChanged"  Margin="0,0,0,284" Height="30" VerticalAlignment="Bottom"/>
-            <Button Content="Добавить" x:Name="BtnAdd"  HorizontalAlignment="Left" Width="125" Click="BtnAdd_Click" Margin="0,0,0,112" Height="31" VerticalAlignment="Bottom" />
-            <Button Content="Сброс" x:Name="BtnCansel"  Margin="0,0,0,214" Click="BtnCansel_Click" Height="30" VerticalAlignment="Bottom"/>
-            <Button Content="Редактировать" x:Name="BtnEdit"  HorizontalAlignment="Left" Width="125" Click="BtnEdit_Click" Margin="0,0,0,76" Height="31" VerticalAlignment="Bottom" />
+            <TextBox Background="White" x:Name="Search"    TextChanged="Search_TextChanged"  Margin="0,20,0,0" Height="30" VerticalAlignment="Top"/>
+            <ComboBox SelectedItem="{Binding Тип_оборудования.Название}"  Height="30" x:Name="ComboType"  Margin="0,55,0,0" SelectionChanged="ComboPost_SelectionChanged" DisplayMemberPath="Название" VerticalAlignment="Top"/>
+            <Button Content="Сброс" x:Name="BtnCansel"  Margin="0,90,0,0" Click="BtnCansel_Click" Height="30" VerticalAlignment="Top"/>
+            <Button Content="Добавить" x:Name="BtnAdd"  HorizontalAlignment="Left" Width="125" Click="BtnAdd_Click" Margin="0,0,0,110" Height="31" VerticalAlignment="Bottom" />
+            <Button Content="Редактировать" x:Name="BtnEdit"  HorizontalAlignment="Left" Width="125" Click="BtnEdit_Click" Margin="0,0,0,75" Height="31" VerticalAlignment="Bottom" />
             <Button Content="Удалить" x:Name="BtnDel"  HorizontalAlignment="Left" Width="125" Click="BtnDel_Click" Margin="0,0,0,40" Height="31" VerticalAlignment="Bottom" />
 
         </Grid>

@@ -27,18 +27,18 @@ namespace MITRA.Equip
             InitializeComponent();
             acc = account;
             DataContext = equip;
-            материалDataGrid.ItemsSource = db_mitraEntities.GetContext().Материал.ToList();
+            материалDataGrid.ItemsSource = db_mitraEntities1.GetContext().Материал.ToList();
         }
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
             string belfast = Search.Text;
-            var biba = db_mitraEntities.GetContext().Материал.Where(x => x.Название.Contains(belfast)).ToList();
+            var biba = db_mitraEntities1.GetContext().Материал.Where(x => x.Название.Contains(belfast)).ToList();
             материалDataGrid.ItemsSource = biba;
         }
         private void BtnCansel_Click(object sender, RoutedEventArgs e)
         {
             Search.Text = "";
-            материалDataGrid.ItemsSource = db_mitraEntities.GetContext().Материал.ToList();
+            материалDataGrid.ItemsSource = db_mitraEntities1.GetContext().Материал.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -66,12 +66,12 @@ namespace MITRA.Equip
                 {
                     try
                     {
-                        db_mitraEntities.GetContext().Материал.RemoveRange(WorkersForRemoving);
-                        db_mitraEntities.GetContext().SaveChanges();
+                        db_mitraEntities1.GetContext().Материал.RemoveRange(WorkersForRemoving);
+                        db_mitraEntities1.GetContext().SaveChanges();
                         MessageBox.Show("Данные удалены!");
 
 
-                        материалDataGrid.ItemsSource = db_mitraEntities.GetContext().Материал.ToList();
+                        материалDataGrid.ItemsSource = db_mitraEntities1.GetContext().Материал.ToList();
                     }
                     catch (Exception ex)
                     {
@@ -89,8 +89,8 @@ namespace MITRA.Equip
         {
             if (Visibility == Visibility.Visible)
             {
-                db_mitraEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-                материалDataGrid.ItemsSource = db_mitraEntities.GetContext().Материал.ToList();
+                db_mitraEntities1.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                материалDataGrid.ItemsSource = db_mitraEntities1.GetContext().Материал.ToList();
             }
         }
     }

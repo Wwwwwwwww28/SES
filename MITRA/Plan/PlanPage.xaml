@@ -10,17 +10,13 @@
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Row="0" Grid.Column="0" HorizontalScrollBarVisibility="Visible">
-            <Grid x:Name="timeLine" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowGridLines="True" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+            <Grid x:Name="timeLine" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowGridLines="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseDown="timeLine_MouseDown">
                 <Grid.ColumnDefinitions>
 
                 </Grid.ColumnDefinitions>
             </Grid>
         </ScrollViewer>
-        
-
-        <Grid Panel.ZIndex="-2" Background="Gray" Grid.Column="1" Grid.RowSpan="2"/>
     </Grid>
 </Page>

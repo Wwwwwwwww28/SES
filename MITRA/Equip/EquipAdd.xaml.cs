@@ -47,10 +47,10 @@ namespace MITRA.Equip
                 return;
             }
             if (equip.ID == 0)
-                db_mitraEntities.GetContext().Материал.Add(equip);
+                db_mitraEntities1.GetContext().Материал.Add(equip);
             try
             {
-                db_mitraEntities.GetContext().SaveChanges();
+                db_mitraEntities1.GetContext().SaveChanges();
                 if (s == 1)
                 {
                     MessageBox.Show("Изменение успешно!");

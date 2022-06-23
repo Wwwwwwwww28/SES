@@ -31,7 +31,7 @@ namespace MITRA
             string password = PasswordTB.Password;
             try
             {
-                Учётная_запись account = db_mitraEntities.GetContext().Учётная_запись.ToList().Where(x => x.Логин == login && x.Пароль == password).First();
+                Учётная_запись account = db_mitraEntities1.GetContext().Учётная_запись.ToList().Where(x => x.Логин == login && x.Пароль == password).First();
                 if(account != null)
                 {
                     MainWindow mainWindow = new MainWindow(account);
@@ -45,8 +45,6 @@ namespace MITRA
                 MessageBox.Show("" + d.Message.ToString());
                 MessageBox.Show("Ошибка авторизации");
             }
-                
-
         }
     }
 }

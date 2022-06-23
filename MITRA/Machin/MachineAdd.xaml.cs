@@ -21,21 +21,21 @@ namespace MITRA.Machin
     public partial class MachineAdd : Page
     {
         int s = 0;
-        int form;
+        Учётная_запись acc;
 
         private Оборудование machin = new Оборудование();
-        public MachineAdd(Оборудование _selectMachine, int _form)
+        public MachineAdd(Оборудование _selectMachine, Учётная_запись acc)
         {
             InitializeComponent();
             s = 0;
-            form = _form;
+            this.acc = acc;
             if (_selectMachine != null)
             {
                 s = 1;
                 machin = _selectMachine;
             }
             DataContext = machin;
-            ComboPost.ItemsSource = db_mitraEntities.GetContext().Тип_оборудования.ToList();
+            ComboPost.ItemsSource = db_mitraEntities1.GetContext().Тип_оборудования.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -48,10 +48,10 @@ namespace MITRA.Machin
                 return;
             }
             if (machin.ID_ТипОборудования == 0)
-                db_mitraEntities.GetContext().Оборудование.Add(machin);
+                db_mitraEntities1.GetContext().Оборудование.Add(machin);
             try
             {
-                db_mitraEntities.GetContext().SaveChanges();
+                db_mitraEntities1.GetContext().SaveChanges();
                 if (s == 1)
                 {
                     MessageBox.Show("Изменение успешно!");
@@ -61,7 +61,7 @@ namespace MITRA.Machin
                     MessageBox.Show("Добавление успешно!");
                 }
 
-                //App.ParentWindowRef.ParentFrame.Navigate(new MachinePage(form));
+                App.ParentWindowRef.ParentFrame.Navigate(new MachinePage(acc));
             }
             catch (Exception ex)
             {
