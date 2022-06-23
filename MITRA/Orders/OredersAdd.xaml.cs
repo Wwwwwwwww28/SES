@@ -61,8 +61,8 @@ namespace MITRA.Oreders
             btnOtch.Visibility = Visibility.Visible;
             calendar.SelectedDate = order.Дата;
             discTextBox.Text = order.Описание;
-            addsEmpls = db_mitraEntities1.GetContext().Database.SqlQuery<Сотрудник>("SELECT * FROM Сотрудник INNER JOIN Наряд_Сотрудник ON Сотрудник.ID=Наряд_Сотрудник.ID_Сотрудника WHERE Наряд_Сотрудник.ID_Наряда=" + order.Номер).ToList();
             lbEmp2.ItemsSource = db_mitraEntities1.GetContext().Database.SqlQuery<Сотрудник>("SELECT * FROM Сотрудник INNER JOIN Наряд_Сотрудник ON Сотрудник.ID=Наряд_Сотрудник.ID_Сотрудника WHERE Наряд_Сотрудник.ID_Наряда=" + order.Номер).ToList();
+            addsEmpls = lbEmp2.ItemsSource as List<Сотрудник>;
             int oldcount = addsEmpls.Count;
         }
 
@@ -193,12 +193,12 @@ namespace MITRA.Oreders
              }*/
             try
             {
-                Наряд order = new Наряд();
+                //Наряд order = new Наряд();
 
-                /*         if (order == null)
-                         {
-                             Наряд order = new Наряд();
-                         }*/
+                if (order == null)
+                {
+                    order = new Наряд();
+                }
                 order.Дата = (DateTime)calendar.SelectedDate;
                 order.ID_Оборудования = (cmbEnv.SelectedItem as Оборудование).ID;
                 order.ID_Шаблона = (cmbType.SelectedItem as Шаблон).ID;
@@ -224,7 +224,7 @@ namespace MITRA.Oreders
 
         private void btnAddEmpl_Click(object sender, RoutedEventArgs e)
         {
-            if (lbEmpl != null)
+            if (lbEmpl != null && lbEmpl.SelectedItem != null)
             {
                 var empl = lbEmpl.SelectedItem as Сотрудник;
                 if (!addsEmpls.Contains(empl))
@@ -232,6 +232,7 @@ namespace MITRA.Oreders
                     addsEmpls.Add(empl);
                     refreshAddsEmlp();
                 }
+                
             }
         }
 
@@ -243,10 +244,12 @@ namespace MITRA.Oreders
 
         private void btnRemEmpl_Click(object sender, RoutedEventArgs e)
         {
-            var empl = lbEmp2.SelectedItem as Сотрудник;
-            addsEmpls.Remove(empl);
-
-            refreshAddsEmlp();
+            if(lbEmp2.SelectedItem != null)
+            {
+                var empl = lbEmp2.SelectedItem as Сотрудник;
+                addsEmpls.Remove(empl);
+                refreshAddsEmlp();
+            }
         }
 
         private void btnOtch_Click(object sender, RoutedEventArgs e)

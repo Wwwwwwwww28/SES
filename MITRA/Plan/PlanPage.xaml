@@ -9,9 +9,13 @@
       Title="PlanPage">
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" MinWidth="50"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.Row="0" Grid.Column="0" HorizontalScrollBarVisibility="Visible">
+        <Grid x:Name="kostyl" Grid.Column="0" ShowGridLines="True">
+            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+        </Grid>
+        <ScrollViewer Grid.Row="0" Grid.Column="1" HorizontalScrollBarVisibility="Visible">
             <Grid x:Name="timeLine" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowGridLines="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" MouseDown="timeLine_MouseDown">
                 <Grid.ColumnDefinitions>
 

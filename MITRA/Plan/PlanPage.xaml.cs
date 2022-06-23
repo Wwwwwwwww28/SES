@@ -50,18 +50,20 @@ namespace MITRA.Plan
                 Grid.SetRow(textBlock, 0);
                 currentTime = currentTime.AddDays(1);
             }
-            timeLine.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            kostyl.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
+            timeLine.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
             ls = db_mitraEntities1.GetContext().Оборудование.ToList();
             for (int i = 0; i < ls.Count; i++)
             {
-                timeLine.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                timeLine.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
+                kostyl.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
                 TextBlock textBlock = new TextBlock();
                 textBlock.Text = ls[i].Название;
                 textBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
                 textBlock.Margin = new Thickness(5);
                 textBlock.IsEnabled = false;
-                timeLine.Children.Add(textBlock);
+                kostyl.Children.Add(textBlock);
                 Grid.SetColumn(textBlock, 0);
                 Grid.SetRow(textBlock, i + 1);
             }

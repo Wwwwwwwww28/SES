@@ -46,6 +46,9 @@ namespace MITRA.Oreders
         private void BtnCansel_Click(object sender, RoutedEventArgs e)
         {
             /*оборудованиеDataGrid.ItemsSource = db_mitraEntities.GetContext().Оборудование.ToList();*/
+            ComboStatus.SelectedItem = null;
+            ComboType.SelectedItem = null;
+            Search.Text = "";
             нарядDataGrid.ItemsSource = db_mitraEntities1.GetContext().Наряд.ToList();
         }
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
@@ -92,7 +95,7 @@ namespace MITRA.Oreders
             }
             else
             {
-                MessageBox.Show("Выберите Рабочего!");
+                MessageBox.Show("Выберите наряд!");
             }
         }
 
